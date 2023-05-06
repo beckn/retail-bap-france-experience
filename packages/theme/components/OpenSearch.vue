@@ -14,15 +14,13 @@
         </p>
         <div class="open-search-input">
           <input v-on:keyup.enter="openSearch" v-model="message" :valid="false" errorMessage="errer" type="text"
-            placeholder="Search for anything" :disabled="
-              !selectedLocation.latitude || !selectedLocation.longitude
-            " v-e2e="'home-search-input'" />
+            placeholder="Search for anything" :disabled="!selectedLocation.latitude || !selectedLocation.longitude
+              " v-e2e="'home-search-input'" />
           <SfButton class="button-pos sf-button--pure color-primary" :class="{
             'is-disabled--button':
               !selectedLocation.latitude || !selectedLocation.longitude
-          }" @click="openSearch" :disabled="
-  !selectedLocation.latitude || !selectedLocation.longitude
-" v-e2e="'home-search-button'">
+          }" @click="openSearch" :disabled="!selectedLocation.latitude || !selectedLocation.longitude
+  " v-e2e="'home-search-button'">
             <span class="sf-search-bar__icon">
               <SfIcon color="var(--c-text)" size="18px" icon="search" />
             </span>
@@ -41,19 +39,19 @@
             <div>
               <div style="display: flex; justify-content: flex-start; align-items: center; width: 100%; ">
                 <SfImage style="width: 100%;" :width="328" :height="142" alt="" class="empty-cart__image trek-item-image"
-                  :src="
-                    decodedOrderObject !== null
-                      ? decodedOrderObject.message.order.item[0].descriptor.images[0]
-                      : ''
-                  " />
+                  :src="importedOrderObject !== null
+                    ? importedOrderObject.message.order.item[0].descriptor
+                      .images[0]
+                    : ''
+                    " />
               </div>
 
               <br />
               <div class="support-text">
-                You appear to have reserved a spot on the
+                You appear to have placed an order for
                 {{
-                  decodedOrderObject !== null
-                  ? decodedOrderObject.message.order.item[0].descriptor.name
+                  importedOrderObject !== null
+                  ? importedOrderObject.message.order.item[0].descriptor.name
                   : ''
                 }}
                 <br />
@@ -62,16 +60,17 @@
                     <div>
                       <span class="trektittle">
                         {{
-                          decodedOrderObject !== null
-                          ? decodedOrderObject.message.order.item[0].descriptor.name
+                          importedOrderObject !== null
+                          ? importedOrderObject.message.order.item[0]
+                            .descriptor.name
                           : ''
                         }}</span>
                     </div>
                     <div>
                       <span class="trektittle">Order ID:</span>
                       <span>{{
-                        decodedOrderObject !== null
-                        ? decodedOrderObject.message.order.id
+                        importedOrderObject !== null
+                        ? importedOrderObject.message.order.id
                         : ''
                       }}</span>
                     </div>
@@ -109,8 +108,9 @@
                       <span>₹
                         {{
                           formatPrice(
-                            decodedOrderObject !== null
-                              ? decodedOrderObject.message.order.item[0].price.value
+                            importedOrderObject !== null
+                              ? importedOrderObject.message.order.item[0].price
+                                .value
                               : ''
                           )
                         }}</span>
@@ -142,7 +142,9 @@
             </div>
 
             <div>
-              <LoadingCircle :customText="' Fetching responses from Chat GPT'" :enable="enableLoader" key="loding-cir" />
+              <LoadingCircle :customHeadertext="'Please wait,'"
+                :customText="'while we connect to ChatGPT to create a shopping list for you!'" :enable="enableLoader"
+                key="loding-cir" />
             </div>
 
             <div class="powered-by-container-texts">
@@ -156,7 +158,7 @@
         <ModalSlide :visible="shopinglist" @close="
           shopinglist = false;
         selectedTrackingId = null;
-                                                  ">
+        ">
           <div class="modal-heading">Shopping List</div>
           <div>
             <hr class="sf-divider" />
@@ -190,7 +192,7 @@
                 type="button" @click="
                   adresslist = true;
                 shopinglist = false;
-                                                                                        ">
+                ">
                 Select Delivery Location
               </SfButton>
             </div>
@@ -204,7 +206,7 @@
         <ModalSlide :visible="adresslist" @close="
           adresslist = false;
         selectedTrackingId = null;
-                                                  ">
+        ">
           <div class="modal-heading">Select delivery location</div>
           <div>
             <hr class="sf-divider" />
@@ -302,7 +304,7 @@ export default {
     const isRenderShoppingItems = ref(false);
     const adresslist = ref(false);
     const shopinglistArray = ref([]);
-    const decodedOrderObject = ref(null);
+    const importedOrderObject = ref(null);
     const endLocationOfTheTravel = ref('');
 
     const modals = () => {
@@ -329,7 +331,7 @@ export default {
     const himalayan = async () => {
       isOpenTrekModal();
       enableLoader.value = true;
-      SuperAgent.post('https://api.experience-gpt.becknprotocol.io/v1/search')
+      SuperAgent.post('https://api.experience-gpt.becknprotocol.io/v2/search')
         .set('Content-Type', 'application/json')
         .send({
           context: {
@@ -337,13 +339,15 @@ export default {
             domain: 'mobility'
           },
           message: {
-            searchQuery: 'Himalaya'
+            prompt_type: 'PARIS',
+            searchQuery: JSON.parse(localStorage.getItem('importedOrderObject'))
+              .message.order.item[0].descriptor.name
           }
         })
         .then((res) => {
           enableLoader.value = false;
           setTimeout(() => {
-            renderItemsWithDelay(shopinglistArray, res.body.items);
+            renderItemsWithDelay(shopinglistArray, res.body.item);
           }, 3000);
           shopinglist.value = true;
         })
@@ -355,26 +359,31 @@ export default {
     onBeforeMount(() => {
       let URL = window.location.href;
 
-      if (URL.includes('?')) {
-        const encodedOrderObject = URL.slice(URL.indexOf('?') + 1);
-        const decodedOrderObject = JSON.parse(window.atob(encodedOrderObject));
-        localStorage.setItem(
-          'decodedOrderObject',
-          JSON.stringify(decodedOrderObject)
-        );
-      }
+      // if (URL.includes('?')) {
+      //   const encodedOrderObject = URL.slice(URL.indexOf('?') + 1);
+      //   const decodedOrderObject = JSON.parse(window.atob(encodedOrderObject));
+      //   localStorage.setItem(
+      //     'decodedOrderObject',
+      //     JSON.stringify(decodedOrderObject)
+      //   );
+      // }
     });
 
     onMounted(() => {
-      if (localStorage.getItem('decodedOrderObject')) {
+      console.log(
+        'ajhsdjahsdh',
+        JSON.parse(localStorage.getItem('importedOrderObject'))
+      );
+      if (localStorage.getItem('importedOrderObject')) {
         isOpenTrekModal();
-        decodedOrderObject.value = JSON.parse(
-          localStorage.getItem('decodedOrderObject')
+        importedOrderObject.value = JSON.parse(
+          localStorage.getItem('importedOrderObject')
         );
         const geoCodeService = new window.google.maps.Geocoder();
 
         const fulfillment_end_loc =
-          decodedOrderObject.value.message.order.item[0].tags.fulfillment_end_loc;
+          importedOrderObject.value.message.order.item[0].tags
+            .fulfillment_end_loc;
         const [latStr, longStr] = fulfillment_end_loc.split('/');
 
         const lat = parseFloat(latStr);
@@ -396,6 +405,7 @@ export default {
     });
 
     const openSearch = () => {
+      console.log('message.value', message.value)
       if (message.value) {
         if (errorMsg.value) errorMsg.value = false;
         context.root.$router.push({
@@ -406,6 +416,7 @@ export default {
         });
       } else if (selectedLocations.value) {
         const items = selectedLocations.value.join(' ');
+        console.log('items in the search', items)
         if (errorMsg.value) errorMsg.value = false;
         context.root.$router.push({
           name: 'Search',
@@ -435,7 +446,7 @@ export default {
       shopinglistArray,
       selectedLocations,
       pastedOrderObject,
-      decodedOrderObject,
+      importedOrderObject,
       renderItemsWithDelay,
       onComplete,
       isRenderShoppingItems,
@@ -465,7 +476,7 @@ export default {
 
 .powered-by-container-texts {
   position: absolute;
-  bottom: 25%;
+  bottom: 9%;
   left: 29%;
 }
 

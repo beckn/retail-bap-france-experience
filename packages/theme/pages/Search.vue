@@ -11,7 +11,7 @@
           </SfButton>
           <SfButton v-else class="sf-search-bar__button sf-button--pure" @click="
             isSearchOpen ? (isSearchOpen = false) : (isSearchOpen = true)
-          ">
+            ">
             <span class="sf-search-bar__icon">
               <SfIcon color="var(--c-text)" size="20px" icon="search" />
             </span>
@@ -31,8 +31,7 @@
           </div>
           <div v-for="(bpp, bppIndex) in pollResults" :key="bppIndex">
             <div v-for="(provider, prIndex) in bpp.bpp_providers" :key="prIndex">
-              <div v-for="(product, pIndex) in provider.items" :key="
-                bppIndex +
+              <div v-for="(product, pIndex) in provider.items" :key="bppIndex +
                 '-' +
                 prIndex +
                 '-' +
@@ -40,15 +39,14 @@
                 '-' +
                 keyVal +
                 'product'
-              " class="results--mobile">
+                " class="results--mobile">
                 <ProductCard @goToProduct="goToProduct(product, provider, bpp)" :pName="productGetters.getName(product)"
                   :pProviderName="providerGetters.getProviderName(provider)" :pBppName="bpp.bpp_descriptor.name"
                   :pPrice="productGetters.getPrice(product).regular"
                   :pImage="productGetters.getGallery(product)[0].small[0]"
                   :pWieght="productGetters.getProductWeight(product) + ' kg'"
-                  :pCount="cartGetters.getItemQty(isInCart({ product }))" @updateItemCount="
-                    (item) => updateItemCount(item, provider, bpp, pIndex)
-                  " :horizontalView="false" />
+                  :pCount="cartGetters.getItemQty(isInCart({ product }))" @updateItemCount="(item) => updateItemCount(item, provider, bpp, pIndex)
+                    " :horizontalView="false" />
               </div>
             </div>
           </div>
@@ -155,7 +153,7 @@ export default {
         locationIs:
           selectedLocation?.value?.latitude !== "" ? (selectedLocation?.value?.latitude +
             ',' +
-            selectedLocation?.value?.longitude) : JSON.parse(localStorage.getItem('decodedOrderObject')).message.order.item[0].fulfillment.start.location.gps
+            selectedLocation?.value?.longitude) : JSON.parse(localStorage.getItem('importedOrderObject')).message.order.item[0].fulfillment.start.location.gps
         // eslint-disable-next-line no-unused-vars
       }).then((_) => {
         localStorage.setItem(

@@ -14,6 +14,7 @@ import { useUiState } from '~/composables';
 import LoadingCircle from '~/components/LoadingCircle';
 import { onBeforeMount, onMounted, ref } from '@vue/composition-api';
 import helpers from '../helpers/helpers';
+import * as sa from 'superagent';
 import { useCart } from '@vue-storefront/beckn';
 
 const { toggleCartSidebar } = useUiState();
@@ -35,11 +36,26 @@ export default {
     onBeforeMount(() => {
       clear()
       localStorage.clear();
+
+      let URL = window.location.href;
+
+      if (URL.includes('?')) {
+        let start = URL.indexOf('=') + 1;
+        const orderObjectUrl = decodeURIComponent(URL.substring(start));
+
+        sa.get(orderObjectUrl).then(res => {
+          localStorage.setItem('importedOrderObject', res.text
+          )
+          enableLoader.value = false
+        }
+        ).catch(e => console.error(e))
+      }
     })
 
 
 
     onMounted(() => {
+      // fetch('')
       setTimeout(() => {
         enableLoader.value = false
       }, 2000);
