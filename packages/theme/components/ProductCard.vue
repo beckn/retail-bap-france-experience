@@ -23,10 +23,10 @@
         </div>
         <!-- <div class="s-p-weight">{{ _pWieght }}</div>    -->
         <div class="price-increase" v-if="!!_updatedPrice && _updatedPrice !== _pPrice">
-          Price increased by <span>₹ {{ formatPrice(_updatedPrice - _pPrice) }}</span>
+          Price increased by <span>€ {{ formatPrice(_updatedPrice - _pPrice) }}</span>
         </div>
         <div class="s-p-price" v-if="_updatedCount !== 0">
-          ₹ {{ formatPrice(_updatedPrice ? _updatedPrice : _pPrice) }}
+          € {{ formatPrice(_updatedPrice ? _updatedPrice : _pPrice) }}
         </div>
         <span class="out-stock" v-if="_updatedCount === 0">Out of Stock</span>
       </div>

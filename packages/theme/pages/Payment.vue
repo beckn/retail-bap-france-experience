@@ -24,7 +24,7 @@
                   {{ breakup.title }}
                 </div>
                 <div class="address-text">
-                  ₹ {{ formatPrice(parseFloat(breakup.price.value).toFixed(2)) }}
+                  € {{ formatPrice(parseFloat(breakup.price.value).toFixed(2)) }}
                 </div>
               </CardContent>
             </div>
@@ -33,7 +33,7 @@
             </div>
             <CardContent class="flex-space-bw">
               <div>Subtotal :</div>
-              ₹ {{ formatPrice(valuePerProvider.price.value) }}
+              €{{ formatPrice(valuePerProvider.price.value) }}
             </CardContent>
           </div>
         </div>

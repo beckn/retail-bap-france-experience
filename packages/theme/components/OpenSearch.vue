@@ -105,7 +105,7 @@
                       <span class="trektittle"> Total Price</span>
                     </div>
                     <div>
-                      <span>₹
+                      <span>€
                         {{
                           formatPrice(
                             importedOrderObject !== null

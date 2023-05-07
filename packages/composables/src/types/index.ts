@@ -159,7 +159,7 @@ export type ProductsResponse = {
 //       "3d_render": null
 //   },
 //   "price": {
-//       "currency": "₹",
+//       "currency": "€",
 //       "value": "40",
 //       "estimated_value": null,
 //       "computed_value": null,
