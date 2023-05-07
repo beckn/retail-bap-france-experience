@@ -1,7 +1,7 @@
 <template>
   <div id="home">
     <div v-if="enableLoader" key="loadingCircle" class="loader-circle">
-      <LoadingCircle :customText="'Importing order from Himalayan-BAP App'" :enable="enableLoader" />
+      <LoadingCircle :customText="'Commande d'importation'" :enable="enableLoader" />
     </div>
 
     <OpenSearch v-else />

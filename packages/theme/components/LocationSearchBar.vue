@@ -6,8 +6,8 @@
           ref="locationAutocomplete"
           v-model="location"
           type="text"
-          placeholder="Enter Location"
-          aria-label="Select Location"
+          placeholder="Entrer l'emplacement"
+          aria-label="Sélectionnez l'emplacement"
           class="
             sf-header__search
             be-search-location

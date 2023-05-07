@@ -3,12 +3,12 @@
     <SfImage
       class="image"
       :src="require('@storefront-ui/shared/icons/error.svg')"
-      alt="something went wrong"
+      alt="Quelque chose s'est mal passé"
     />
     <SfHeading
       title="Something went wrong"
       :level="2"
-      description="please go back and try again"
+      description="S'il vous plaît, retournez et réessayez"
       class="heading sf-heading--no-underline"
     />
     <div class="actions">

@@ -2,16 +2,16 @@
   <transition name="dropdown-content">
     <div v-if="active" class="drop">
       <div class="rahul">
-        <nuxt-link :to="localePath('/orders')"> My Orders </nuxt-link>
+        <nuxt-link :to="localePath('/orders')"> Mes commandes </nuxt-link>
       </div>
       <div><hr class="sf-divider" /></div>
       <div class="rahul">
-        <nuxt-link :to="localePath('/support')"> Support </nuxt-link>
+        <nuxt-link :to="localePath('/support')"> Soutien </nuxt-link>
       </div>
       <div><hr class="sf-divider" /></div>
       <div class="rahul">
         <nuxt-link v-if="isUserAuthenticated()" :to="localePath('/Logout')"
-          >Logout</nuxt-link
+          >Se déconnecter</nuxt-link
         >
       </div>
     </div>

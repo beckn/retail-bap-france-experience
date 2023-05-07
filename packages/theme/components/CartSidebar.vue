@@ -28,8 +28,7 @@
         <div v-else key="empty-cart" class="empty-cart">
           <div class="empty-cart__banner">
             <SfImage alt="Empty bag" class="empty-cart__image" src="/icons/empty-cart.svg" />
-            <SfHeading title="Your cart is empty" :level="2" class="empty-cart__heading" description="Looks like you haven’t added any items to the bag yet. Start
-                shopping to fill it in." />
+            <SfHeading title="Votre panier est vide" :level="2" class="empty-cart__heading" description="Il semble que vous n'ayez pas encore ajouté d'articles au panier. Commencez à magasiner pour le remplir." />
           </div>
         </div>
       </transition>
@@ -42,13 +41,13 @@
         </Footer>
       </div>
       <ModalSlide :visible="openModal" @close="toggleModal">
-        <div class="modal-heading">Cart Quantity</div>
+        <div class="modal-heading">Quantité</div>
         <div>
           <hr class="sf-divider" />
         </div>
         <div class="modal-body">
           <div class="inputs-container">
-            <SfInput v-model="itemNumber" type="number" label="Enter Quantity" name="locality" @change="() => { }" />
+            <SfInput v-model="itemNumber" type="number" label="Entrer la quantité" name="locality" @change="() => { }" />
           </div>
           <SfButton class="add-quantity" aria-label="Close modal" type="button" @click="addQuantity" style="width: 100%">
             Add quantity</SfButton>

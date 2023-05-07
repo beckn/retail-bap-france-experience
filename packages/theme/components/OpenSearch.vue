@@ -3,10 +3,10 @@
     <div>
       <div class="open-search header-top-space">
         <h3>
-          Open <br />
-          Commerce
+          Commerce  <br />
+          Ouvert 
         </h3>
-        <h4>for All</h4>
+        <h4>pour Tous</h4>
 
         <p>
           A global marketplace to discover and buy anything you need. Just type
@@ -14,7 +14,7 @@
         </p>
         <div class="open-search-input">
           <input v-on:keyup.enter="openSearch" v-model="message" :valid="false" errorMessage="errer" type="text"
-            placeholder="Search for anything" :disabled="
+            placeholder="Rechercher n'importe quoi" :disabled="
               !selectedLocation.latitude || !selectedLocation.longitude
             " v-e2e="'home-search-input'" />
           <SfButton class="button-pos sf-button--pure color-primary" :class="{
@@ -28,11 +28,11 @@
             </span>
           </SfButton>
         </div>
-        <div v-if="errorMsg" class="error-msg">Please fill out this field.</div>
+        <div v-if="errorMsg" class="error-msg">Veuillez remplir ce champ.</div>
       </div>
       <div>
         <ModalSlide :visible="openTrekModal" @close="isOpenTrekModal">
-          <div class="modal-heading">Imported Order</div>
+          <div class="modal-heading">Commande importée</div>
           <div>
             <hr class="sf-divider" />
           </div>
@@ -50,7 +50,7 @@
 
               <br />
               <div class="support-text">
-                You appear to have reserved a spot on the
+                Vous semblez avoir commandé pour
                 {{
                   decodedOrderObject !== null
                   ? decodedOrderObject.message.order.item[0].descriptor.name
@@ -68,7 +68,7 @@
                         }}</span>
                     </div>
                     <div>
-                      <span class="trektittle">Order ID:</span>
+                      <span class="trektittle">Commande ID:</span>
                       <span>{{
                         decodedOrderObject !== null
                         ? decodedOrderObject.message.order.id
@@ -103,7 +103,7 @@
                   </div>
                   <div style="display:flex; justify-content: space-between; ">
                     <div>
-                      <span class="trektittle"> Total Price</span>
+                      <span class="trektittle"> Prix ​​total</span>
                     </div>
                     <div>
                       <span>₹
@@ -120,23 +120,22 @@
                   <!-- Your content goes here -->
                 </div>
 
-                Would you like to shop for items related to this trip?
+                Souhaitez-vous acheter des articles liés à cette commande?
               </div>
 
               <div>
-                <SfButton class="support-btns" aria-label="Close modal" type="button" @click="himalayan">Yes! Show me the
-                  list</SfButton>
+                <SfButton class="support-btns" aria-label="Close modal" type="button" @click="himalayan">Oui! Montre-moi la liste</SfButton>
               </div>
 
               <div @click="isOpenTrekModal" class="btn">
-                No, I have everything I need
+                Non, j'ai tout ce dont j'ai besoin
               </div>
             </div>
           </div>
         </ModalSlide>
         <ModalSlide class="fetch-GPT-modal" :visible="enableLoader" @close="enableLoader = false">
           <div style="height: 375px;">
-            <div class="modal-heading">Imported Order</div>
+            <div class="modal-heading">Commande importée</div>
             <div>
               <hr class="sf-divider" />
             </div>
@@ -146,7 +145,7 @@
             </div>
 
             <div class="powered-by-container-texts">
-              <span class="powered-up-text">Powered by</span>
+              <span class="powered-up-text">Propulsé par</span>
 
               <SfImage alt="chat-gpt-icon" class="chat-gpt-icon" src="/icons/chatgpt.png" width="52px" height="10px" />
             </div>
@@ -157,7 +156,7 @@
           shopinglist = false;
         selectedTrackingId = null;
                                                   ">
-          <div class="modal-heading">Shopping List</div>
+          <div class="modal-heading">Liste de courses</div>
           <div>
             <hr class="sf-divider" />
           </div>
@@ -179,7 +178,7 @@
             </div>
 
             <div style="display: flex; align-items: center; justify-content: center;">
-              <span class="gpt">Powered by</span>
+              <span class="gpt">Propulsé par</span>
               <div style="margin-left: 4px;">
                 <SfImage alt="copypast" class="empty-cart__image" src="/icons/chatgpt.png" width="52px" height="10px" />
               </div>
@@ -205,13 +204,13 @@
           adresslist = false;
         selectedTrackingId = null;
                                                   ">
-          <div class="modal-heading">Select delivery location</div>
+          <div class="modal-heading">Sélectionnez l'emplacement de livraison</div>
           <div>
             <hr class="sf-divider" />
           </div>
           <div class="modal-body">
             <div class="support-text" style="font-weight: 700; font-size: 16px;">
-              Where would you like the order to be delivered?
+              Où souhaitez-vous livrer la commande?
 
               <br />
               <br />
@@ -245,7 +244,7 @@
         <SfFooter class="footer">
           <!-- <p><span>By</span> <img src="../assets/images/p-b-phonepe.png" alt="" /> </p> -->
           <p>
-            <span class="powered-by">Powered by</span>
+            <span class="powered-by">Propulsé par</span>
             <img src="../assets/images/beckn-logo.png" alt="" />
           </p>
         </SfFooter>

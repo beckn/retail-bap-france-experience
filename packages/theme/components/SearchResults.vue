@@ -2,7 +2,7 @@
   <div>
     <SfMegaMenu
       :visible="isSearchOpen"
-      :title="$t('Search results')"
+      :title="$t('Résultats de recherche')"
       class="search"
     >
       <transition-group name="sf-fade" class="check-w" mode="out-in">
@@ -17,7 +17,7 @@
           <div class="h-padding result-num">
             <span
               ><span v-e2e="'total-result'">{{ totalResults(catalogs) }}</span>
-              results not found found</span
+              Résultats introuvables</span
             >
           </div>
           <div v-for="(bpp, bppIndex) in catalogs" :key="bppIndex">
@@ -34,7 +34,7 @@
                         ? providerGetters.getProviderImages(provider)[0]
                         : require('~/assets/images/store-placeholder.png')
                     "
-                    alt="Vila stripe maxi shirt dress"
+                    alt="Default"
                     :width="35"
                     :height="36"
                   />
@@ -46,7 +46,7 @@
                         }}
                       </div>
                       <div class="text-padding">
-                        <span class="p-distance">by</span>
+                        <span class="p-distance">par</span>
                         <span>{{
                           providerGetters.getProviderBpp(bpp.bpp_descriptor)
                         }}</span>
@@ -58,7 +58,7 @@
                   </div>
                 </div>
                 <div class="exp-provider" @click="openProvider(bpp, provider)">
-                  Explore All
+                  Explorez tout
                 </div>
               </div>
               <div class="results--mobile">
@@ -97,13 +97,13 @@
             loading="lazy"
           />
           <p>
-            <b>{{ $t('Your search did not yield ') }}</b>
+            <b>{{ $t('Votre recherche n'a donné  ') }}</b>
           </p>
           <p>
-            <b>{{ $t('any results ') }}</b>
+            <b>{{ $t('aucun résultat ') }}</b>
           </p>
           <p>{{ $t('Please try searching again using ') }}</p>
-          <p>{{ $t('different keyword') }}</p>
+          <p>{{ $t('autre mot-clé') }}</p>
         </div>
         <div v-else-if="false" key="no-results" class="before-results">
           <SfImage
@@ -113,10 +113,10 @@
             loading="lazy"
           />
           <p class="before-results__paragraph">
-            {{ $t('You haven’t searched for items yet') }}
+            {{ $t('Vous n'avez pas encore cherché des articles') }}
           </p>
           <p class="before-results__paragraph">
-            {{ $t('Let’s start now – we’ll help you') }}
+            {{ $t('Commençons maintenant - nous vous aiderons') }}
           </p>
         </div>
       </transition-group>
@@ -126,7 +126,7 @@
         @buttonClick="footerClick"
         :totalPrice="cart.totalPrice"
         :totalItem="cart.totalItems"
-        buttonText="View Cart"
+        buttonText="Voir Panier"
       >
         <template v-slot:buttonIcon>
           <SfIcon icon="empty_cart" color="white" :coverage="1" />

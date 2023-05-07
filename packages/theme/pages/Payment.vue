@@ -6,14 +6,14 @@
           <SfIcon color="var(--c-primary)" size="20px" icon="chevron_left" />
         </span>
       </div>
-      <div class="">Select Payment Method</div>
+      <div class="">Sélectionnez le mode de paiement</div>
     </div>
     <div v-if="enableLoader" key="loadingCircle" class="loader-circle">
       <LoadingCircle :enable="enableLoader" />
     </div>
     <div class="details header-push">
       <div class="sub-heading">
-        <div class="p-name">Payment</div>
+        <div class="p-name">Paiement</div>
       </div>
       <Card v-if="order.cart">
         <div v-for="(value, bppId) in order.cart.quoteItem" :key="bppId">
@@ -42,17 +42,17 @@
         </div>
       </Card>
       <div class="sub-heading">
-        <div class="p-name">Other</div>
+        <div class="p-name">Autre</div>
       </div>
       <Card>
         <CardContent>
           <!-- <div class="address-text color-def">Add Shipping Details</div> -->
-          <SfRadio class="sf-radio--transparent" :name="'Payment'" :value="'Cash on Delivery'" label="Cash On Delivery"
+          <SfRadio class="sf-radio--transparent" :name="'Payment'" :value="'Cash On Delivery'" label="Cliquez et collectez"
             :disabled="false" :selected="paymentMethod" @change="changePaymentMethod" />
         </CardContent>
       </Card>
     </div>
-    <Footer class="footer-fixed" :buttonText="'Confirm'" :buttonEnable="isPayConfirmActive"
+    <Footer class="footer-fixed" :buttonText="'Confirmer'" :buttonEnable="isPayConfirmActive"
       :totalPrice="order.cart.totalPrice" :totalItem="cartGetters.getTotalItems(order.cart)"
       @buttonClick="proceedToConfirm">
       <template v-slot:buttonIcon>

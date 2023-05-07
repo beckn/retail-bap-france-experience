@@ -6,21 +6,21 @@
           <SfIcon color="var(--c-primary)" size="20px" icon="chevron_left" />
         </span>
       </div>
-      <div>Billing & Shipping</div>
+      <div>Facturation et expédition</div>
     </div>
     <div v-if="enableLoader" key="loadingCircle" class="loader-circle">
       <LoadingCircle :enable="enableLoader" />
     </div>
     <div class="details header-push">
       <div class="sub-heading">
-        <div class="p-name" v-e2e="'cart-item'">Items</div>
+        <div class="p-name" v-e2e="'cart-item'">Articles</div>
       </div>
 
       <div :key="bppId" v-for="(itemsPerBpp,
         bppId,
         shipmentNumber) in cartGetters.getCartItemsPerBppPerProvider(cart)" class="cart-shipment-wrapper">
         <div v-for="(itemsPerProvider, bppProviderId) in itemsPerBpp" :key="bppProviderId" class="shipment-wrapper">
-          <div class="shipment-number">Shipment {{ shipmentNumber + 1 }}</div>
+          <div class="shipment-number">Expédition {{ shipmentNumber + 1 }}</div>
           <div v-for="(item, index) in itemsPerProvider" :key="index" class="item-wrapper">
             <div class="s-p-image">
               <SfImage :src="cartGetters.getItemImage(item)" alt="product img" :width="85" :height="90" />
@@ -28,7 +28,7 @@
             <div class="s-p-details">
               <div class="s-p-name">{{ cartGetters.getItemName(item) }}</div>
               <div class="s-p-retailer">
-                sold by
+                vendu par
                 {{
                   providerGetters.getProviderName(
                     cartGetters.getBppProvider(item)
@@ -62,7 +62,7 @@
       </div>
 
       <div class="sub-heading">
-        <div class="p-name">Shipping</div>
+        <div class="p-name">Expédition</div>
         <SfButton v-if="isShippingAddressFilled" class="sf-button--pure" @click="toggleShippingModal">
           <div class="color-def">Change</div>
         </SfButton>
@@ -79,13 +79,13 @@
             </svg>
           </div>
           <div @click="toggleShippingModal" v-e2e="'add-shipping-details'" class="address-text color-def">
-            Add Shipping Details
+            Ajouter des détails d'expédition
           </div>
         </CardContent>
       </Card>
 
       <div v-if="isShippingAddressFilled" class="sub-heading">
-        <div class="p-name">Billing</div>
+        <div class="p-name">Facturation</div>
         <SfButton v-if="isBillingAddressFilled || !shippingAsBilling" class="sf-button--pure" @click="toggleBillingModal">
           <div class="color-def">Change</div>
         </SfButton>
@@ -95,7 +95,7 @@
           <div class="address-bar-icon">
             <SfCheckbox @change="changeShippingAsBilling" :selected="shippingAsBilling" name="shipping" />
           </div>
-          <div class="address-text">Same as Shipping Details</div>
+          <div class="address-text">Identique aux détails d'expédition</div>
         </CardContent>
       </Card>
 
@@ -104,13 +104,13 @@
         :building="billingAddress.building" />
 
       <div class="sub-heading">
-        <div class="p-name">Payment</div>
+        <div class="p-name">Paiement</div>
       </div>
 
       <div>
         <Card>
           <SfAccordion>
-            <SfAccordionItem :header="'Subtotal'">
+            <SfAccordionItem :header="'Sous-total'">
               <!-- <CardContent > -->
               <div class="bpp_breakup">
                 <div :key="bppId" v-for="(value, bppId) in cartGetters.getQuoteItem(cart)">
@@ -122,7 +122,7 @@
                       </CardContent>
                     </div>
                     <CardContent class="flex-space-bw">
-                      <div>Subtotal :</div>
+                      <div>Sous-total :</div>
                       <div>₹ {{ formatPrice(valuePerProvider.price.value) }}</div>
                     </CardContent>
                   </div>
@@ -135,19 +135,18 @@
 
       <div class="order-policy">
         <div class="sub-heading">
-          <div class="p-name">Order policy</div>
+          <div class="p-name">Commandez des conditions</div>
         </div>
         <Card>
           <!-- To redo it after order policy content -->
           <!-- <CardContent> -->
 
           <p class="policy-text">
-            Cancellation terms:<br />
-            1. Orders cannot be cancelled once the items are shipped.<br />
-            2. Cancellation fee of ₹ 10 will be applied for orders cancelled
-            by the buyer.<br /><br />
-            Returns and Refunds:<br />
-            1. Items can be returned within 7 days of delivery with full refund.
+            Termes d'annulation:<br />
+            1. Les commandes ne peuvent pas être annulées une fois les articles expédiés.<br />
+            2. Les frais d'annulation de 2 € seront appliqués pour les commandes annulées par l'acheteur.<br /><br />
+            Retours et remboursements:<br />
+            1. Les articles peuvent être retournés dans les 7 jours suivant la livraison avec un remboursement complet.
           </p>
         </Card>
       </div>
@@ -163,12 +162,12 @@
       </template>
     </Footer>
     <ModalSlide :visible="shippingAddressModal" @close="toggleShippingModal">
-      <AddressInputs :buttonText="'Save Shipping Details'" :headingText="'Shipping Details'"
+      <AddressInputs :buttonText="'Enregistrer les détails d'expédition'" :headingText="'Shipping Details'"
         :addressDetails="shippingAddress" @getAddress="toggleShippingModal" @initCall="initOrder"
         :buttonEnable="isShippingButtonEnabled" />
     </ModalSlide>
     <ModalSlide :visible="billingAddressModal" @close="toggleBillingModal">
-      <AddressInputs :buttonText="'Save Billing Details'" :headingText="'Billing Details'"
+      <AddressInputs :buttonText="'Enregistrer les détails de facturation'" :headingText="'détails de facturation'"
         :addressDetails="billingAddress" @getAddress="toggleBillingModal" @initCall="initOrder"
         :buttonEnable="isBillingButtonEnabled" />
     </ModalSlide>
