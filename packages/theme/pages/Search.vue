@@ -149,7 +149,7 @@ export default {
 
       search({
         term: paramValue,
-        category: 'RetailEnglish',
+        category: 'RetailFrench',
         locationIs:
           selectedLocation?.value?.latitude !== "" ? (selectedLocation?.value?.latitude +
             ',' +
