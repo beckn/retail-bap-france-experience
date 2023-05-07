@@ -97,7 +97,7 @@
             loading="lazy"
           />
           <p>
-            <b>{{ $t('Votre recherche n'a donné  ') }}</b>
+            <b>{{ $t('Votre recherche n\'a donné  ') }}</b>
           </p>
           <p>
             <b>{{ $t('aucun résultat ') }}</b>
@@ -113,7 +113,7 @@
             loading="lazy"
           />
           <p class="before-results__paragraph">
-            {{ $t('Vous n'avez pas encore cherché des articles') }}
+            {{ $t('Vous n\'avez pas encore cherché des articles') }}
           </p>
           <p class="before-results__paragraph">
             {{ $t('Commençons maintenant - nous vous aiderons') }}

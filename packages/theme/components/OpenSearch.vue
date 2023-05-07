@@ -49,11 +49,7 @@
 
               <br />
               <div class="support-text">
-<<<<<<< HEAD
                 Vous semblez avoir commandé pour
-=======
-                You appear to have placed an order for
->>>>>>> 4871ef785bb487e09ef2ec6f7d1edae2a9695ab4
                 {{
                   importedOrderObject !== null
                   ? importedOrderObject.message.order.item[0].descriptor.name
@@ -162,13 +158,8 @@
         <ModalSlide :visible="shopinglist" @close="
           shopinglist = false;
         selectedTrackingId = null;
-<<<<<<< HEAD
                                                   ">
           <div class="modal-heading">Liste de courses</div>
-=======
-        ">
-          <div class="modal-heading">Shopping List</div>
->>>>>>> 4871ef785bb487e09ef2ec6f7d1edae2a9695ab4
           <div>
             <hr class="sf-divider" />
           </div>
@@ -215,13 +206,8 @@
         <ModalSlide :visible="adresslist" @close="
           adresslist = false;
         selectedTrackingId = null;
-<<<<<<< HEAD
                                                   ">
           <div class="modal-heading">Sélectionnez l'emplacement de livraison</div>
-=======
-        ">
-          <div class="modal-heading">Select delivery location</div>
->>>>>>> 4871ef785bb487e09ef2ec6f7d1edae2a9695ab4
           <div>
             <hr class="sf-divider" />
           </div>

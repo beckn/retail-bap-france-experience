@@ -55,7 +55,7 @@
         <div v-if="noSearchFound" key="no-search" class="before-results">
           <SfImage src="/icons/feather_search.svg" class="" alt="error" loading="lazy" />
           <p>
-            <b>{{ $t('Votre recherche n'a donné ') }}</b>
+            <b>{{ $t('Votre recherche n\'a donné ') }}</b>
           </p>
           <p>
             <b>{{ $t('aucun résultat ') }}</b>
