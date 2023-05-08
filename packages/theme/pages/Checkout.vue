@@ -162,7 +162,7 @@
       </template>
     </Footer>
     <ModalSlide :visible="shippingAddressModal" @close="toggleShippingModal">
-      <AddressInputs :buttonText="'Enregistrer les détails d'expédition'" :headingText="'Shipping Details'"
+      <AddressInputs :buttonText="`Enregistrer les détails d'expédition`" :headingText="'Shipping Details'"
         :addressDetails="shippingAddress" @getAddress="toggleShippingModal" @initCall="initOrder"
         :buttonEnable="isShippingButtonEnabled" />
     </ModalSlide>
