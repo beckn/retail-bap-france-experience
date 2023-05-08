@@ -65,7 +65,8 @@
         </div>
       </transition-group>
 
-      <LoadingCircle :enable="enableLoader" :customText="'Fetching results from the network'" key="loding-cir" />
+      <LoadingCircle :enable="enableLoader" :customHeadertext="'Please wait,'"
+        :customText="'Searching the open network for commerce & culture'" key="loding-cir" />
     </div>
     <div v-if="cartGetters.getTotalItems(cart)" class="sr-footer">
       <Footer @buttonClick="footerClick" :totalPrice="cartGetters.getTotals(cart).total"

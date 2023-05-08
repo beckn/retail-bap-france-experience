@@ -139,7 +139,7 @@
                           index !== Object.keys(fulfillmentData).length - 1
                         " class="dot"></div>
                       </div>
-                      <div class="step-details">
+                      <div style="margin-top: -18px;" class="step-details">
                         <div class="step-number">Shipment {{ index + 1 }}</div>
                         <div class="step-name">
                           {{ currFulfillment.state.descriptor.name }}
@@ -481,7 +481,7 @@ export default {
       stopPolling: stopStatusPolling
     } = useOrderStatus('status');
 
-    const importedOrderObject = JSON.parse(localStorage.getItem('decodedOrderObject'))
+    const importedOrderObject = JSON.parse(localStorage.getItem('importedOrderObject'))
     const itemNameInOrderDetails = importedOrderObject.message.order.item[0].descriptor.name;
 
     const orderIdInTheOrderDetails = importedOrderObject.message.order.id;
@@ -619,7 +619,8 @@ export default {
     const callStatus = async () => {
       const params = createStatusTrackAndSupportOrderRequest(
         order.value,
-        'order_id'
+        'order_id',
+        JSON.parse(localStorage.getItem('importedOrderObject'))
       );
       try {
         const response = await status(params, localStorage.getItem('token'));

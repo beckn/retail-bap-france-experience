@@ -167,7 +167,11 @@ export const createConfirmOrderRequest = (
  * @param idKey String Key which we need to set with the orderId in each request
  * @returns Request body for the api
  */
-export const createStatusTrackAndSupportOrderRequest = (orderValue, idKey) => {
+export const createStatusTrackAndSupportOrderRequest = (
+  orderValue,
+  idKey,
+  orderObject?: any
+) => {
   const { transactionId, orderData } = orderValue;
   const request = [];
   Object.keys(orderData).forEach((orderId) => {
@@ -178,7 +182,8 @@ export const createStatusTrackAndSupportOrderRequest = (orderValue, idKey) => {
       },
       message: {
         [idKey]: orderId
-      }
+      },
+      order_object: orderObject
     };
     request.push(supportItems);
   });

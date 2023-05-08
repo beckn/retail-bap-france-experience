@@ -49,11 +49,11 @@
               <br />
               <div class="support-text">
                 You appear to have placed an order for
-                {{
+                "{{
                   importedOrderObject !== null
                   ? importedOrderObject.message.order.item[0].descriptor.name
                   : ''
-                }}
+                }}"
                 <br />
                 <div class="scrollable-div">
                   <div style="display:flex; justify-content: space-between; ">
@@ -76,12 +76,17 @@
                     </div>
                   </div>
                   <div>
-                    <P>
-                      <span class="trektittle">The Orchad Greens Resort & SPA,</span>
+                    <P style="text-align: center;">
+                      <!-- <span class="trektittle">The Orchad Greens Resort & SPA,</span>
                       <br />
 
                       Log Huts Area Rd, Old Manali, Manali, Himachal Pradesh
-                      175131
+                      175131 -->
+                      {{
+                        importedOrderObject !== null
+                        ? importedOrderObject.message.order.item[0].descriptor.short_desc
+                        : ''
+                      }}
                     </P>
                   </div>
                   <!-- <div style="display:flex; justify-content: space-between; ">
@@ -120,7 +125,7 @@
                   <!-- Your content goes here -->
                 </div>
 
-                Would you like to shop for items related to this trip?
+                Would you like to shop for items related to this order?
               </div>
 
               <div>
@@ -213,7 +218,7 @@
           </div>
           <div class="modal-body">
             <div class="support-text" style="font-weight: 700; font-size: 16px;">
-              Where would you like the order to be delivered?
+              Select a delivery location. We’ll connect you to the local suppliers for a seamless delivery:
 
               <br />
               <br />
