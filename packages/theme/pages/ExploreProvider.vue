@@ -75,7 +75,7 @@
           class="s-text h-padding"
           key="s-text"
         >
-          Related to your search “{{ setSearchKey }}”
+          Lié à votre recherche “{{ setSearchKey }}”
         </div>
         <div
           v-if="!enableLoader"
@@ -96,7 +96,7 @@
           />
         </div>
         <div v-if="itemList.length > loadNum " key="load-more" class="load-more" @click="loadMore">
-          <button>Load More</button>
+          <button>Montre plus</button>
         </div>
         <LoadingCircle :enable="enableLoader" key="sfg-cir" />
       </transition-group>
@@ -106,7 +106,7 @@
         @buttonClick="footerClick"
         :totalPrice="cart.totalPrice"
         :totalItem="cartGetters.getTotalItems(cart)"
-        buttonText="View Cart"
+        buttonText="Voir le chariot"
       >
         <template v-slot:buttonIcon>
           <SfIcon icon="empty_cart" color="white" :coverage="1" />

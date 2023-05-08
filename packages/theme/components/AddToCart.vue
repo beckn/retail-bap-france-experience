@@ -8,8 +8,7 @@
         link=""
         @click="changeItemNumber('add')"
       >
-        <SfIcon icon="add_to_cart" size="xs" color="white" :coverage="1" /> Add
-        to Cart
+        <SfIcon icon="add_to_cart" size="xs" color="white" :coverage="1" /> Ajouter au panier
       </button>
       <div v-else class="item-counter">
         <button

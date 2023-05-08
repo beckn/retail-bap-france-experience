@@ -15,8 +15,8 @@
           >
             <input
               type="text"
-              placeholder="Search for location"
-              aria-label="Select Location"
+              placeholder="Rechercher l'emplacement"
+              aria-label="Sélectionnez l'emplacement"
               class="
                   sf-header__search
                   be-search-location

@@ -7,7 +7,7 @@
       </div>
       <div class="details">
         <div class="sub-heading dis-block">
-          <div class="p-name flex-set">Success!</div>
+          <div class="p-name flex-set">Succès!</div>
           <div class="p-name flex-set">Your Order Has Been Placed</div>
         </div>
         <div class="sub-heading">
@@ -20,7 +20,7 @@
         >
           <!-- button icon template  -->
           <slot name="buttonIcon" />
-          <div class="f-btn-text">View Order</div>
+          <div class="f-btn-text">Affichez votre commande</div>
         </button>
       </div>
     </div>

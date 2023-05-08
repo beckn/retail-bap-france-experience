@@ -6,7 +6,7 @@
           <SfIcon color="var(--c-primary)" size="20px" icon="chevron_left" />
         </span>
       </div>
-      <div class="header-push">Cart</div>
+      <div class="header-push">Panier</div>
     </div>
     <div v-if="enableLoader" key="loadingCircle" class="loader-circle">
       <LoadingCircle :enable="enableLoader" />
@@ -52,8 +52,7 @@
       <div v-else key="empty-cart" class="empty-cart">
         <div class="empty-cart__banner">
           <SfImage alt="Empty bag" class="empty-cart__image" src="/icons/empty-cart.svg" />
-          <SfHeading title="Your cart is empty" :level="2" class="empty-cart__heading" description="Looks like you haven’t added any items to the bag yet. Start
-              shopping to fill it in." />
+          <SfHeading title="Your cart is empty" :level="2" class="empty-cart__heading" description="On dirait que vous n'avez pas encore ajouté d'articles au sac. Commencez à faire du shopping pour le remplir." />
         </div>
       </div>
     </transition>
@@ -67,17 +66,17 @@
       </Footer>
     </div>
     <ModalSlide :visible="openModal" @close="toggleModal">
-      <div class="modal-heading">Cart Quantity</div>
+      <div class="modal-heading">Quantité</div>
       <div>
         <hr class="sf-divider" />
       </div>
       <div class="modal-body">
         <div class="inputs-container">
           <SfInput v-model="itemNumber" type="number" :valid="validInput" label="Enter Quantity" name="locality"
-            errorMessage="Maximum limit on cart quantity is 10." @input="onChangeInput" />
+            errorMessage="Maximum limit on quantity is 10" @input="onChangeInput" />
         </div>
         <SfButton class="add-quantity" :class="{ 'is-disabled--button': !validInput }" aria-label="Close modal"
-          type="button" @click="addQuantity" :disabled="!validInput" style="width: 100%">Add quantity</SfButton>
+          type="button" @click="addQuantity" :disabled="!validInput" style="width: 100%">Ajouter la quantité</SfButton>
       </div>
     </ModalSlide>
   </div>

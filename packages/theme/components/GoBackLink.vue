@@ -1,5 +1,5 @@
 <template>
-  <span class="errorLink"><nuxt-link :to="path">Go back</nuxt-link></span>
+  <span class="errorLink"><nuxt-link :to="path">Retourner</nuxt-link></span>
 </template>
 
 <script>

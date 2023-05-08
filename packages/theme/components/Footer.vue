@@ -4,23 +4,15 @@
       <div class="holder">
         <div class="f-total">Total</div>
         <div>
-          <span class="f-p-total">€ {{ formatPrice(totalPrice) }} </span
-          ><span class="f-items">{{ totalItem }} Items</span>
+          <span class="f-p-total">₹ {{ formatPrice(totalPrice) }} </span><span class="f-items">{{ totalItem }}
+            Articles</span>
         </div>
       </div>
     </div>
-    <button
-      v-e2e="'footer-button'"
-      :value="buttonText"
-      class="sf-button f-button"
-      :class="{
-        'color-primary ': buttonEnable,
-        'is-disabled--button': !buttonEnable
-      }"
-      :disabled="!buttonEnable"
-      link=""
-      @click="$emit('buttonClick')"
-    >
+    <button v-e2e="'footer-button'" :value="buttonText" class="sf-button f-button" :class="{
+      'color-primary ': buttonEnable,
+      'is-disabled--button': !buttonEnable
+    }" :disabled="!buttonEnable" link="" @click="$emit('buttonClick')">
       <!-- button icon template  -->
       <slot name="buttonIcon" />
       <div class="f-btn-text">{{ buttonText }}</div>

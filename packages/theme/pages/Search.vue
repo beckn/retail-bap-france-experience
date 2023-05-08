@@ -1,7 +1,7 @@
 <template>
   <div class="search-page">
     <div class="search-bar side-padding">
-      <SfSearchBar placeholder="Search for items" aria-label="Search" :icon="null" :value="searchKey"
+      <SfSearchBar placeholder="Rechercher des produits" aria-label="Search" :icon="null" :value="searchKey"
         @input="(value) => (searchKey = value)" @keydown.enter="searchHit($event)">
         <template #icon>
           <SfButton v-if="searchKey" class="sf-search-bar__button sf-button--pure" @click="clearSearch">
@@ -55,22 +55,21 @@
         <div v-if="noSearchFound" key="no-search" class="before-results">
           <SfImage src="/icons/feather_search.svg" class="" alt="error" loading="lazy" />
           <p>
-            <b>{{ $t('Your search did not yield ') }}</b>
+            <b>{{ $t('Votre recherche n\'a donné ') }}</b>
           </p>
           <p>
-            <b>{{ $t('any results ') }}</b>
+            <b>{{ $t('aucun résultat ') }}</b>
           </p>
           <p>{{ $t('Please try searching again using ') }}</p>
-          <p>{{ $t('different keyword') }}</p>
+          <p>{{ $t('autre mot-clé') }}</p>
         </div>
       </transition-group>
 
-      <LoadingCircle :enable="enableLoader" :customHeadertext="'Please wait,'"
-        :customText="'Searching the open network for commerce & culture'" key="loding-cir" />
+      <LoadingCircle :enable="enableLoader" :customText="'Récupérer les résultats du réseau'" key="loding-cir" />
     </div>
     <div v-if="cartGetters.getTotalItems(cart)" class="sr-footer">
       <Footer @buttonClick="footerClick" :totalPrice="cartGetters.getTotals(cart).total"
-        :totalItem="cartGetters.getTotalItems(cart)" buttonText="View Cart">
+        :totalItem="cartGetters.getTotalItems(cart)" buttonText="Voir Panier">
         <template v-slot:buttonIcon>
           <SfIcon icon="empty_cart" color="white" :coverage="1" />
         </template>
@@ -150,7 +149,7 @@ export default {
 
       search({
         term: paramValue,
-        category: 'RetailEnglish',
+        category: 'RetailFrench',
         locationIs:
           selectedLocation?.value?.latitude !== "" ? (selectedLocation?.value?.latitude +
             ',' +

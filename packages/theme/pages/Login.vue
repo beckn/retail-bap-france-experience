@@ -6,14 +6,14 @@
           <SfIcon color="var(--c-primary)" size="20px" icon="chevron_left" />
         </span>
       </div>
-      <div class="header-push">Sign in</div>
+      <div class="header-push">S'identifier</div>
     </div>
     <div class="open-search">
       <h3>
-        Open <br />
-        Commerce
+        Commerce <br />
+        Ouvert
       </h3>
-      <h4>for All</h4>
+      <h4>pour Tous</h4>
 
       <div class="socialMedia-login-container">
         <div>
@@ -43,7 +43,7 @@
                   />
                 </g></svg></span
             ><span class="social-span-content"
-              >Sign in with Google</span
+              >Connectez-vous avec Google</span
             ></SfButton
           >
         </div>
@@ -73,7 +73,7 @@
                     d="M 10.5 1.261719 C 5.398438 1.261719 1.261719 5.398438 1.261719 10.5 C 1.261719 15.132812 4.671875 18.957031 9.117188 19.625 L 9.117188 12.949219 L 6.832031 12.949219 L 6.832031 10.519531 L 9.117188 10.519531 L 9.117188 8.902344 C 9.117188 6.226562 10.421875 5.054688 12.648438 5.054688 C 13.710938 5.054688 14.273438 5.132812 14.542969 5.167969 L 14.542969 7.289062 L 13.023438 7.289062 C 12.082031 7.289062 11.75 8.183594 11.75 9.191406 L 11.75 10.519531 L 14.519531 10.519531 L 14.140625 12.949219 L 11.75 12.949219 L 11.75 19.644531 C 16.261719 19.035156 19.738281 15.175781 19.738281 10.5 C 19.738281 5.398438 15.601562 1.261719 10.5 1.261719 Z M 10.5 1.261719 "
                   />
                 </g></svg></span
-            ><span class="social-span-content">Sign in with Facebook </span>
+            ><span class="social-span-content">Connectez-vous avec Facebook </span>
           </SfButton>
         </div>
       </div>

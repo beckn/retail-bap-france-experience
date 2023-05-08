@@ -57,7 +57,7 @@
                 color="white"
                 :coverage="1"
               />
-              View Cart
+              Voir Panier
               <SfIcon
                 class="mt"
                 icon="chevron_right"
@@ -76,7 +76,7 @@
             </div>
           </div> -->
           <Footer @buttonClick="footerClick" :totalPrice="cart.totalPrice" :totalItem="cartGetters.getTotalItems(cart)"
-            buttonText="View Cart">
+            buttonText="Voir Panier">
             <template v-slot:buttonIcon>
               <SfIcon icon="empty_cart" color="white" :coverage="1" />
             </template>

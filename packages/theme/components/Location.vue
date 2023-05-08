@@ -22,7 +22,7 @@
               </slot>
             </div>
             <div v-if="isLocationSelected">
-              <input v-model="location" type="text" aria-label="Select Location" class="
+              <input v-model="location" type="text" aria-label="Sélectionnez l'emplacement" class="
                             sf-header__search
                             sf-search-bar
                             sf-header__search
@@ -32,7 +32,7 @@
           </client-only>
           <template>
             <div id="location" class="location-drop">
-              <SfSidebar :visible="!!isLocationdropOpen" :button="false" title="My Location" @close="toggleLocationDrop"
+              <SfSidebar :visible="!!isLocationdropOpen" :button="false" title="Ma position" @close="toggleLocationDrop"
                 class="sidebar sf-sidebar--right">
                 <transition name="fade">
                   <client-only>
@@ -62,7 +62,7 @@
                 <div style="display: flex; align-items: center;">
                   <SfImage alt="importOrderIcon" class="empty-cart__image" src="/icons/importOrderIcon.svg" width="10px"
                     height="11px" />
-                  <span @click="isOpenTrekModal" class="gpt">Paste Order</span>
+                  <span @click="isOpenTrekModal" class="gpt">Commande de pâte</span>
                 </div>
                 <div style="display: flex; align-items: center;">
                   <SfImage alt="copypast" class="empty-cart__image" src="/icons/scan.png" width="10px" height="11px" />

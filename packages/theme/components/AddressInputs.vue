@@ -11,8 +11,8 @@
         :errorMessage="validateInput('Name')"
         v-model="address.name"
         :type="'text'"
-        :label="'Name*'"
-        :name="'Name'"
+        :label="'Nom*'"
+        :name="'name'"
       />
       <SfInput
         v-e2e="'mobile-input'"
@@ -20,7 +20,7 @@
         :errorMessage="validateInput('mobile')"
         v-model="address.mobile"
         :type="'number'"
-        :label="'Mobile Number*'"
+        :label="'Numéro de portable*'"
         pattern="[0-9]{10}"
         maxlength="10"
         autocomplete="tel"
@@ -34,7 +34,7 @@
         :max="999999"
         min="0"
         pattern="[0-9]{6}"
-        :label="'Pincode*'"
+        :label="'Code PIN*'"
         :name="'Pincode'"
         :valid="!validateInput('Pincode')"
         :errorMessage="validateInput('Pincode')"
@@ -45,21 +45,21 @@
         :errorMessage="validateInput('address')"
         v-model="address.address"
         :type="'text'"
-        :label="'Complete Address*'"
+        :label="'Adresse complète*'"
         :name="'address'"
       />
       <SfInput
         v-e2e="'building-input'"
         v-model="address.building"
         :type="'text'"
-        :label="'Building Name & Floor'"
+        :label="'Nom du bâtiment et plancher'"
         :name="'building'"
       />
       <SfInput
         v-e2e="'landmark-input'"
         v-model="address.landmark"
         :type="'text'"
-        :label="'Landmark'"
+        :label="'Repère'"
         :name="'locality'"
         @change="() => {}"
       />
@@ -124,7 +124,7 @@ export default {
       switch (field) {
         case 'Name':
           if (address.value.name && address.value.name.length < 2) {
-            return 'Please enter a valid name';
+            return 'Merci d\'entrer un nom valide';
           }
           break;
         case 'mobile':
@@ -133,7 +133,7 @@ export default {
             (!re.test(address.value.mobile) ||
               address.value.mobile.length !== 10)
           ) {
-            return 'Please enter a valid mobile';
+            return 'Veuillez saisir un mobile valide';
           }
           break;
         case 'address':
@@ -141,7 +141,7 @@ export default {
             address.value.address &&
             regforSpecialCharacters.test(address.value.address)
           ) {
-            return 'Please use valid characters';
+            return 'Veuillez utiliser des caractères valides';
           }
           break;
         case 'Pincode':
@@ -150,7 +150,7 @@ export default {
             (!re.test(address.value.pincode) ||
               address.value.pincode.length !== 6)
           ) {
-            return 'Please enter a valid pincode';
+            return 'Veuillez saisir un Pincode valide';
           }
           break;
         default:
