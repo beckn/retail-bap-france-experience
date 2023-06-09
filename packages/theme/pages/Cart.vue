@@ -1,85 +1,138 @@
 <template>
-  <div id="cart">
-    <div class="top-bar">
-      <div @click="goBack" class="sf-chevron--left sf-chevron icon_back">
-        <span class="sf-search-bar__icon">
-          <SfIcon color="var(--c-primary)" size="20px" icon="chevron_left" />
-        </span>
-      </div>
-      <div class="header-push">Cart</div>
-    </div>
-    <div v-if="enableLoader" key="loadingCircle" class="loader-circle">
-      <LoadingCircle :enable="enableLoader" />
-    </div>
+  <div>
     <div>
-      <div v-if="errOutOfStock" class="cart-error-msg">
-        <img src="../assets/images/bx_bx-error.png" alt="" />
-        <p>
-          Some items are currently available. Please remove these items and
-          proceed to checkout.
-        </p>
-      </div>
-      <div v-if="errUpdateCount" class="cart-warning-msg">
-        <img src="../assets/images/bx_bx-error-circle.png" alt="" />
-        <p>
-          Oops, required quantity not available! Update items with available
-          quantity and proceed? <br /><span @click="updateAll"><a>Yes, update all</a></span>
-        </p>
-      </div>
-      <div v-if="errPricechange" class="cart-warning-msg">
-        <img src="../assets/images/bx_bx-error-circle.png" alt="" />
-        <p>
-          Prices of some of the items in your cart have changed.Please verify
-          and proceed.
-        </p>
-      </div>
+      <Location />
     </div>
-    <transition name="sf-fade" mode="out-in">
-      <div v-if="cartGetters.getTotalItems(cart)" key="my-cart" class="my-cart">
-        <transition-group name="sf-fade" tag="div">
-          <ProductCard v-e2e="'cart-product'" name="product-card" class="product-card"
-            v-for="(product, index) in cartGetters.getItems(cart)" :key="index + 'new'"
-            :pName="cartGetters.getItemName(product)" :pProviderName="
-              providerGetters.getProviderName(product.bppProvider)
-            " :pBppName="product.bpp.descriptor.name" :pPrice="cartGetters.getItemPrice(product).regular"
-            :pImage="cartGetters.getItemImage(product)" :pCount="cartGetters.getItemQty(product)"
-            :updatedPrice="cartGetters.getUpdatedPrice(product)" :updatedCount="cartGetters.getUpdatedCount(product)"
-            :horizontalView="false" :deleteCard="true" :dropdownCouner="true"
-            @updateItemCount="(item) => updateItemCount(item, index)" @deleteItem="updateItemCount(0, index)"
-            @dropdownMore="toggleModal(index)" />
-        </transition-group>
-      </div>
-      <div v-else key="empty-cart" class="empty-cart">
-        <div class="empty-cart__banner">
-          <SfImage alt="Empty bag" class="empty-cart__image" src="/icons/empty-cart.svg" />
-          <SfHeading title="Your cart is empty" :level="2" class="empty-cart__heading" description="Looks like you haven’t added any items to the bag yet. Start
-              shopping to fill it in." />
+    <div id="cart">
+      <div class="top-bar">
+        <div @click="goBack" class="sf-chevron--left sf-chevron icon_back">
+          <span class="sf-search-bar__icon">
+            <SfIcon color="var(--c-primary)" size="20px" icon="chevron_left" />
+          </span>
         </div>
+        <div class="header-push">Cart</div>
       </div>
-    </transition>
-    <div class="c-footer" v-if="cartGetters.getTotalItems(cart)">
-      <Footer @buttonClick="footerClick" :totalPrice="cartGetters.getTotals(cart).total"
-        :totalItem="cartGetters.getTotalItems(cart)" :buttonEnable="!errOutOfStock && !errUpdateCount && !enableLoader"
-        buttonText="Billing & Shipping">
-        <template v-slot:buttonIcon>
-          <SfIcon icon="empty_cart" color="white" :coverage="1" />
-        </template>
-      </Footer>
-    </div>
-    <ModalSlide :visible="openModal" @close="toggleModal">
-      <div class="modal-heading">Cart Quantity</div>
+      <div v-if="enableLoader" key="loadingCircle" class="loader-circle">
+        <LoadingCircle :enable="enableLoader" />
+      </div>
       <div>
-        <hr class="sf-divider" />
-      </div>
-      <div class="modal-body">
-        <div class="inputs-container">
-          <SfInput v-model="itemNumber" type="number" :valid="validInput" label="Enter Quantity" name="locality"
-            errorMessage="Maximum limit on cart quantity is 10." @input="onChangeInput" />
+        <div v-if="errOutOfStock" class="cart-error-msg">
+          <img src="../assets/images/bx_bx-error.png" alt="" />
+          <p>
+            Some items are currently available. Please remove these items and
+            proceed to checkout.
+          </p>
         </div>
-        <SfButton class="add-quantity" :class="{ 'is-disabled--button': !validInput }" aria-label="Close modal"
-          type="button" @click="addQuantity" :disabled="!validInput" style="width: 100%">Add quantity</SfButton>
+        <div v-if="errUpdateCount" class="cart-warning-msg">
+          <img src="../assets/images/bx_bx-error-circle.png" alt="" />
+          <p>
+            Oops, required quantity not available! Update items with available
+            quantity and proceed? <br /><span @click="updateAll"
+              ><a>Yes, update all</a></span
+            >
+          </p>
+        </div>
+        <div v-if="errPricechange" class="cart-warning-msg">
+          <img src="../assets/images/bx_bx-error-circle.png" alt="" />
+          <p>
+            Prices of some of the items in your cart have changed.Please verify
+            and proceed.
+          </p>
+        </div>
       </div>
-    </ModalSlide>
+      <transition name="sf-fade" mode="out-in">
+        <div
+          v-if="cartGetters.getTotalItems(cart)"
+          key="my-cart"
+          class="my-cart"
+        >
+          <transition-group name="sf-fade" tag="div">
+            <ProductCard
+              v-e2e="'cart-product'"
+              name="product-card"
+              class="product-card"
+              v-for="(product, index) in cartGetters.getItems(cart)"
+              :key="index + 'new'"
+              :pName="cartGetters.getItemName(product)"
+              :pProviderName="
+                providerGetters.getProviderName(product.bppProvider)
+              "
+              :pBppName="product.bpp.descriptor.name"
+              :pPrice="cartGetters.getItemPrice(product).regular"
+              :pImage="cartGetters.getItemImage(product)"
+              :pCount="cartGetters.getItemQty(product)"
+              :updatedPrice="cartGetters.getUpdatedPrice(product)"
+              :updatedCount="cartGetters.getUpdatedCount(product)"
+              :horizontalView="false"
+              :deleteCard="true"
+              :dropdownCouner="true"
+              :endDate="endDateOfEvent"
+              @updateItemCount="(item) => updateItemCount(item, index)"
+              @deleteItem="updateItemCount(0, index)"
+              @dropdownMore="toggleModal(index)"
+            />
+          </transition-group>
+        </div>
+        <div v-else key="empty-cart" class="empty-cart">
+          <div class="empty-cart__banner">
+            <SfImage
+              alt="Empty bag"
+              class="empty-cart__image"
+              src="/icons/empty-cart.svg"
+            />
+            <SfHeading
+              title="Your cart is empty"
+              :level="2"
+              class="empty-cart__heading"
+              description="Looks like you haven’t added any items to the bag yet. Start
+            shopping to fill it in."
+            />
+          </div>
+        </div>
+      </transition>
+      <div class="c-footer" v-if="cartGetters.getTotalItems(cart)">
+        <Footer
+          @buttonClick="footerClick"
+          :totalPrice="cartGetters.getTotals(cart).total"
+          :totalItem="cartGetters.getTotalItems(cart)"
+          :buttonEnable="!errOutOfStock && !errUpdateCount && !enableLoader"
+          buttonText="Billing & Shipping"
+        >
+          <template v-slot:buttonIcon>
+            <SfIcon icon="empty_cart" color="white" :coverage="1" />
+          </template>
+        </Footer>
+      </div>
+      <ModalSlide :visible="openModal" @close="toggleModal">
+        <div class="modal-heading">Cart Quantity</div>
+        <div>
+          <hr class="sf-divider" />
+        </div>
+        <div class="modal-body">
+          <div class="inputs-container">
+            <SfInput
+              v-model="itemNumber"
+              type="number"
+              :valid="validInput"
+              label="Enter Quantity"
+              name="locality"
+              errorMessage="Maximum limit on cart quantity is 10."
+              @input="onChangeInput"
+            />
+          </div>
+          <SfButton
+            class="add-quantity"
+            :class="{ 'is-disabled--button': !validInput }"
+            aria-label="Close modal"
+            type="button"
+            @click="addQuantity"
+            :disabled="!validInput"
+            style="width: 100%"
+            >Add quantity</SfButton
+          >
+        </div>
+      </ModalSlide>
+    </div>
   </div>
 </template>
 <script>
@@ -107,8 +160,8 @@ import { ref, onBeforeMount, watch } from '@vue/composition-api';
 import { useUiState } from '~/composables';
 import LoadingCircle from '~/components/LoadingCircle';
 import helpers from '../helpers/helpers';
+import Location from '../components/Location';
 export default {
-
   name: 'Cart',
   components: {
     SfSidebar,
@@ -124,7 +177,8 @@ export default {
     ModalSlide,
     SfInput,
     LoadingCircle,
-    helpers
+    helpers,
+    Location
   },
 
   setup(_, { root }) {
@@ -134,6 +188,7 @@ export default {
     const modelOpenIndex = ref(-1);
     const itemNumber = ref(null);
     const { toggleSearchVisible } = useUiState();
+    const endDateOfEvent = ref('');
 
     const errOutOfStock = ref(false);
     const errUpdateCount = ref(false);
@@ -221,6 +276,7 @@ export default {
         cart.value.quote.price.value || cart.value.totalPrice;
 
       setCart(cart.value);
+      console.log(cart.value)
       localStorage.setItem('cartData', JSON.stringify(cart.value));
       enableLoader.value = false;
     };
@@ -234,27 +290,30 @@ export default {
       });
     };
 
-    watch(
-      () => pollResults.value,
-      (onGetQuoteRes) => {
-        if (!polling.value || !onGetQuoteRes) {
-          return;
-        }
+    // watch(
+    //   () => pollResults.value,
+    //   (onGetQuoteRes) => {
+    //     if (!polling.value || !onGetQuoteRes) {
+    //       return;
+    //     }
 
-        handleOnGetQuoteError(onGetQuoteRes);
+    //     handleOnGetQuoteError(onGetQuoteRes);
 
-        if (helpers.shouldStopPooling(onGetQuoteRes, 'quote')) {
-          stopPolling();
-        }
+    //     if (helpers.shouldStopPooling(onGetQuoteRes, 'quote')) {
+    //       stopPolling();
+    //     }
 
-        updateCart(onGetQuoteRes);
-      }
-    );
+    //     updateCart(onGetQuoteRes);
+    //   }
+    // );
 
     const matchQuote = async () => {
+      console.log( cart.value)
+      
       if (cart.value.totalItems > 0 && localStorage.getItem('transactionId')) {
         enableLoader.value = true;
         const transactionId = localStorage.getItem('transactionId');
+        
 
         const getQuoteRequest = [];
         const cartItemsPerBppPerProvider = cartGetters.getCartItemsPerBppPerProvider(
@@ -269,9 +328,9 @@ export default {
                 context: {
                   // eslint-disable-next-line camelcase
                   transaction_id: transactionId,
-                  // eslint-disable-next-line camelcase
-                  bpp_id: bppId,
-                  bpp_uri: cart.value.bpp_uri
+                bpp_id: cart.value.items[0].bpp.id,
+                bpp_uri: cart.value.items[0].bpp.uri,
+                domain: 'tourism'
                 },
                 message: {
                   cart: {
@@ -284,14 +343,40 @@ export default {
             }
           );
         });
-
-        const getQuoteResponse = await init(
-          getQuoteRequest,
-          localStorage.getItem('token')
-        );
-        const messageIds = helpers.getMessageIdsFromResponse(getQuoteResponse);
-        await poll({ messageIds: messageIds }, localStorage.getItem('token'));
-      } else {
+        const payload = {
+          selectRequestDto: [
+            {
+              context: {
+                transaction_id: transactionId,
+                bpp_id: cart.value.items[0].bpp.id,
+                bpp_uri: cart.value.items[0].bpp.uri,
+                domain: 'tourism'
+              },
+              message: {
+                order: {
+                  items: [
+                    {
+                      quantity: {
+                        count: cart.value.items[0].quantity
+                      },
+                      id: cart.value.items[0].id
+                    }
+                  ],
+                  provider: {
+                    id: cart.value.items[0].bppProvider.id
+                  },
+                  locations: cart.value.items[0].locations
+                }
+              }
+            }
+          ]
+      }
+        try {
+          const getQuoteResponse = await init(payload, root.$store.state.token);
+          updateCart(getQuoteResponse);
+        } catch (error) {
+          throw `${error} in the getQuote request`
+        }} else {
         enableLoader.value = false;
       }
     };
@@ -349,6 +434,7 @@ export default {
     onBeforeMount(async () => {
       await load();
       await matchQuote();
+      endDateOfEvent.value = cart.value.items[0].tags.fulfillment_end_time;
     });
 
     const onChangeInput = (value) => {
@@ -373,7 +459,8 @@ export default {
       enableLoader,
       updateAll,
       validInput,
-      onChangeInput
+      onChangeInput,
+     endDateOfEvent
     };
   }
 };
@@ -398,7 +485,7 @@ export default {
   --overlay-z-index: 3;
 
   @include for-desktop {
-    &>* {
+    & > * {
       --sidebar-bottom-padding: var(--spacer-base);
       --sidebar-content-padding: var(--spacer-base);
     }

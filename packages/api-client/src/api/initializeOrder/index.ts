@@ -12,7 +12,7 @@ export default async function initializeOrder(
   const config = context.config as Config;
   const client = context.client as sa.SuperAgent<sa.SuperAgentRequest>;
   return client
-    .post(config.api.url + config.api.endpoints.initializeOrder)
+    .post('https://api-node-dev.mobilityreferencebap.becknprotocol.io/client/v2/initialize_order')
     .set({
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`

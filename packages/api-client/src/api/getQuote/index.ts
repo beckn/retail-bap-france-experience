@@ -13,7 +13,7 @@ export default async function getQuote(
   const client = context.client as sa.SuperAgent<sa.SuperAgentRequest>;
 
   return client
-    .post(config.api.url + config.api.endpoints.getQuote)
+    .post('https://api-node-dev.mobilityreferencebap.becknprotocol.io/client/v2/get_quote')
     .set({
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`

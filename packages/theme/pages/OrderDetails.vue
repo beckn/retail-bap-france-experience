@@ -482,6 +482,7 @@ export default {
     } = useOrderStatus('status');
 
     const importedOrderObject = JSON.parse(localStorage.getItem('importedOrderObject'))
+    
     const itemNameInOrderDetails = importedOrderObject.message.order.item[0].descriptor.name;
 
     const orderIdInTheOrderDetails = importedOrderObject.message.order.id;
