@@ -30,23 +30,28 @@
             </div>
           </div>
           <div v-for="(bpp, bppIndex) in pollResults" :key="bppIndex">
-            <div v-for="(provider, prIndex) in bpp.bpp_providers" :key="prIndex">
-              <div v-for="(product, pIndex) in provider.items" :key="bppIndex +
-                '-' +
-                prIndex +
-                '-' +
-                pIndex +
-                '-' +
-                keyVal +
-                'product'
-                " class="results--mobile">
-                <ProductCard @goToProduct="goToProduct(product, provider, bpp)" :pName="productGetters.getName(product)"
-                  :pProviderName="providerGetters.getProviderName(provider)" :pBppName="bpp.bpp_descriptor.name"
-                  :pPrice="productGetters.getPrice(product).regular"
-                  :pImage="productGetters.getGallery(product)[0].small[0]"
-                  :pWieght="productGetters.getProductWeight(product) + ' kg'"
-                  :pCount="cartGetters.getItemQty(isInCart({ product }))" @updateItemCount="(item) => updateItemCount(item, provider, bpp, pIndex)
-                    " :horizontalView="false" />
+            <div v-if="bpp.message">
+              <div v-for="(provider, prIndex) in bpp.message.catalog[
+                'bpp/providers'
+              ]" :key="prIndex">
+                <div v-for="(product, pIndex) in provider.items" :key="bppIndex +
+                  '-' +
+                  prIndex +
+                  '-' +
+                  pIndex +
+                  '-' +
+                  keyVal +
+                  'product'
+                  " class="results--mobile">
+                  <ProductCard @goToProduct="goToProduct(product, provider, bpp)" :pName="productGetters.getName(product)"
+                    :pProviderName="providerGetters.getProviderName(provider)"
+                    ::pBppName="bpp.message.catalog['bpp/descriptor'].name"
+                    :pPrice="productGetters.getPrice(product).regular"
+                    :pImage="productGetters.getGallery(product)[0].small[0]"
+                    :pWieght="productGetters.getProductWeight(product) + ' kg'"
+                    :pCount="cartGetters.getItemQty(isInCart({ product }))" @updateItemCount="(item) => updateItemCount(item, provider, bpp, pIndex)
+                      " :horizontalView="false" />
+                </div>
               </div>
             </div>
           </div>
@@ -122,16 +127,11 @@ export default {
     const { addItem, cart, isInCart, load } = useCart();
     const data = context.root.$route.params.searchKey;
     const searchKey = ref(data);
+    const pollResults = ref([]);
     const enableLoader = ref(Boolean(data));
     const keyVal = ref(0);
     const { search, result } = useFacet();
-    const { pollResults, poll, polling, stopPolling } = useSearch('search');
     const noSearchFound = ref(false);
-
-    const openSearchByDropdown = ref(false);
-    const selectedSearchByOption = ref(
-      context.root.$route.params.searchBy || 'search-by-all'
-    );
 
     watch(
       () => clearCartPopup.value,
@@ -143,7 +143,7 @@ export default {
     );
 
     const handleSearch = debounce((paramValue) => {
-      if (polling.value) stopPolling();
+      // if (polling.value) stopPolling();
       enableLoader.value = true;
       if (noSearchFound.value) noSearchFound.value = false;
       toggleLoadindBar(false);
@@ -152,52 +152,61 @@ export default {
         term: paramValue,
         category: 'RetailEnglish',
         locationIs:
-          selectedLocation?.value?.latitude !== "" ? (selectedLocation?.value?.latitude +
+          selectedLocation?.value?.latitude !== ''
+            ? selectedLocation?.value?.latitude +
             ',' +
-            selectedLocation?.value?.longitude) : JSON.parse(localStorage.getItem('importedOrderObject')).message.order.item[0].fulfillment.start.location.gps
+            selectedLocation?.value?.longitude
+            : JSON.parse(localStorage.getItem('importedOrderObject')).message
+              .order.item[0].fulfillment.start.location.gps
         // eslint-disable-next-line no-unused-vars
       }).then((_) => {
+        pollResults.value = result.value.data.ackResponse.message.catalogs;
         localStorage.setItem(
           'transactionId',
           result.value.data.ackResponse.context.transaction_id
         );
+        if (result.value.data.ackResponse.message.catalogs.length === 0) {
+          noSearchFound.value = true;
+        }
 
-        poll({
-          // eslint-disable-next-line camelcase
-          message_id: result.value.data.ackResponse.context.message_id,
-          providerName:
-            selectedSearchByOption.value === 'search-by-seller'
-              ? paramValue
-              : null
-        });
+        enableLoader.value = false;
+        toggleLoadindBar(true);
+        // poll({
+        //   // eslint-disable-next-line camelcase
+        //   message_id: result.value.data.ackResponse.context.message_id,
+        //   providerName:
+        //     selectedSearchByOption.value === 'search-by-seller'
+        //       ? paramValue
+        //       : null
+        // });
       });
     }, 1000);
 
-    watch(
-      () => pollResults.value,
-      (newValue) => {
-        if (newValue?.length > 0 && enableLoader.value) {
-          enableLoader.value = false;
-          toggleLoadindBar(true);
-        }
-      }
-    );
+    // watch(
+    //   () => pollResults.value,
+    //   (newValue) => {
+    //     if (newValue?.length > 0 && enableLoader.value) {
+    //       enableLoader.value = false;
+    //       toggleLoadindBar(true);
+    //     }
+    //   }
+    // );
 
-    watch(
-      () => polling.value,
-      (newValue) => {
-        if (!newValue) {
-          enableLoader.value = false;
-          toggleLoadindBar(false);
-          if (pollResults?.value.length === 0) {
-            noSearchFound.value = true;
-          }
-        } else {
-          enableLoader.value = true;
-          noSearchFound.value = false;
-        }
-      }
-    );
+    // watch(
+    //   () => polling.value,
+    //   (newValue) => {
+    //     if (!newValue) {
+    //       enableLoader.value = false;
+    //       toggleLoadindBar(false);
+    //       if (pollResults?.value.length === 0) {
+    //         noSearchFound.value = true;
+    //       }
+    //     } else {
+    //       enableLoader.value = true;
+    //       noSearchFound.value = false;
+    //     }
+    //   }
+    // );
 
     onBeforeMount(async () => {
       await load();
@@ -234,14 +243,17 @@ export default {
     const totalResults = computed(() => {
       let reusltNum = 0;
       for (const bpp of pollResults?.value) {
-        if (bpp.bpp_providers) {
-          if (bpp.bpp_providers.length !== 0) {
-            for (const provider of bpp.bpp_providers) {
-              if (provider.items) {
-                reusltNum += provider.items.length;
+        if (bpp.message) {
+          if (bpp.message.catalog['bpp/providers']) {
+            if (bpp.message.catalog['bpp/providers'].length !== 0) {
+              for (const provider of bpp.message.catalog['bpp/providers']) {
+                if (provider.items) {
+                  reusltNum += provider.items.length;
+                }
               }
             }
           }
+
         }
       }
       return reusltNum;
@@ -256,20 +268,24 @@ export default {
     };
 
     const goToProduct = (product, provider, bpp) => {
-
       const data = btoa(
-        helpers.toBinary(JSON.stringify({
-          product,
-          bpp: {
-            id: bpp.bpp_id,
-            descriptor: bpp.bpp_descriptor
-          },
-          bppProvider: {
-            id: provider.id,
-            descriptor: provider.descriptor
-          },
-          locations: provider.locations
-        }))
+        helpers.toBinary(
+          JSON.stringify({
+            product,
+            bpp: {
+              // id: bpp.bpp_id,
+              // descriptor: bpp.bpp_descriptor
+              id: bpp.context.bpp_id,
+              descriptor: bpp.message.catalog['bpp/descriptor'],
+              uri: bpp.context.bpp_uri
+            },
+            bppProvider: {
+              id: provider.id,
+              descriptor: provider.descriptor
+            },
+            locations: provider.locations
+          })
+        )
       );
       context.root.$router.push({
         path: '/product',
@@ -285,9 +301,9 @@ export default {
         quantity: data,
         customQuery: {
           bpp: {
-            id: bpp.bpp_id,
-            descriptor: bpp.bpp_descriptor,
-            uri: bpp.bpp_uri
+            id: bpp.context.bpp_id,
+            descriptor: bpp.message.catalog['bpp/descriptor'],
+            uri: bpp.context.bpp_uri
           },
           bppProvider: {
             id: provider.id,

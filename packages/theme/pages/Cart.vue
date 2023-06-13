@@ -39,9 +39,8 @@
         <transition-group name="sf-fade" tag="div">
           <ProductCard v-e2e="'cart-product'" name="product-card" class="product-card"
             v-for="(product, index) in cartGetters.getItems(cart)" :key="index + 'new'"
-            :pName="cartGetters.getItemName(product)" :pProviderName="
-              providerGetters.getProviderName(product.bppProvider)
-            " :pBppName="product.bpp.descriptor.name" :pPrice="cartGetters.getItemPrice(product).regular"
+            :pName="cartGetters.getItemName(product)" :pProviderName="providerGetters.getProviderName(product.bppProvider)
+              " :pBppName="product.bpp.descriptor.name" :pPrice="cartGetters.getItemPrice(product).regular"
             :pImage="cartGetters.getItemImage(product)" :pCount="cartGetters.getItemQty(product)"
             :updatedPrice="cartGetters.getUpdatedPrice(product)" :updatedCount="cartGetters.getUpdatedCount(product)"
             :horizontalView="false" :deleteCard="true" :dropdownCouner="true"
@@ -234,29 +233,15 @@ export default {
       });
     };
 
-    watch(
-      () => pollResults.value,
-      (onGetQuoteRes) => {
-        if (!polling.value || !onGetQuoteRes) {
-          return;
-        }
-
-        handleOnGetQuoteError(onGetQuoteRes);
-
-        if (helpers.shouldStopPooling(onGetQuoteRes, 'quote')) {
-          stopPolling();
-        }
-
-        updateCart(onGetQuoteRes);
-      }
-    );
-
     const matchQuote = async () => {
       if (cart.value.totalItems > 0 && localStorage.getItem('transactionId')) {
         enableLoader.value = true;
+
         const transactionId = localStorage.getItem('transactionId');
 
-        const getQuoteRequest = [];
+        const getQuoteRequest = {
+          selectRequestDto: []
+        };
         const cartItemsPerBppPerProvider = cartGetters.getCartItemsPerBppPerProvider(
           cart.value
         );
@@ -269,28 +254,48 @@ export default {
                 context: {
                   // eslint-disable-next-line camelcase
                   transaction_id: transactionId,
-                  // eslint-disable-next-line camelcase
                   bpp_id: bppId,
-                  bpp_uri: cart.value.bpp_uri
+                  bpp_uri: cart.value.bpp_uri,
+                  domain: "retail"
                 },
                 message: {
-                  cart: {
-                    items: cartItemsPerBppPerProvider[bppId][providerId]
+                  order: {
+                    items: [
+                      {
+                        quantity: cartItemsPerBppPerProvider[bppId][providerId][0].quantity,
+                        id: cartItemsPerBppPerProvider[bppId][providerId][0].id
+                      }
+                    ],
+                    provider: {
+                      id: cartItemsPerBppPerProvider[bppId][providerId][0].provider.id
+                    },
+                    locations: cartItemsPerBppPerProvider[bppId][providerId][0].locations
                   }
                 }
               };
 
-              getQuoteRequest.push(cartItem);
+              getQuoteRequest.selectRequestDto.push(cartItem);
             }
           );
         });
 
-        const getQuoteResponse = await init(
-          getQuoteRequest,
-          localStorage.getItem('token')
-        );
-        const messageIds = helpers.getMessageIdsFromResponse(getQuoteResponse);
-        await poll({ messageIds: messageIds }, localStorage.getItem('token'));
+        try {
+          const getQuoteResponse = await init(
+            getQuoteRequest,
+            localStorage.getItem('token')
+          );
+
+          handleOnGetQuoteError(getQuoteResponse);
+          updateCart(getQuoteResponse);
+
+          enableLoader.value = false;
+
+        } catch (error) {
+          console.error(`error in select call ${error}`)
+        }
+
+
+
       } else {
         enableLoader.value = false;
       }
