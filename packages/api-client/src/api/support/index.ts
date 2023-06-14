@@ -13,7 +13,9 @@ export async function support(
   const client = context.client as sa.SuperAgent<sa.SuperAgentRequest>;
 
   return client
-    .post(config.api.url + config.api.endpoints.support)
+    .post(
+      'https://api-node-dev.mobilityreferencebap.becknprotocol.io/client/v2/support'
+    )
     .send(params)
     .set({
       'Content-Type': 'application/json',

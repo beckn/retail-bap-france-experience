@@ -337,39 +337,14 @@ export default {
         shippingAsBilling.value,
         '12.9063433,77.5856825'
       );
-      const response = await init(params, localStorage.getItem('token'));
 
-      if (response) {
-        let messageIds = '';
-        response.forEach((res) => {
-          messageIds += res.context?.message_id + ',';
-        });
-        messageIds = messageIds.substring(0, messageIds.length - 1);
-        await onInitOrder(
-          {
-            // eslint-disable-next-line camelcase
-            messageIds: messageIds
-          },
-          localStorage.getItem('token')
-        );
-      } else {
-        enableLoader.value = false;
-      }
-    };
+      try {
+        const onInitResponse = await init(params, localStorage.getItem('token'));
 
-    watch(
-      () => onInitResult.value,
-      (onInitResponse) => {
-        if (!onInitResponse) {
-          return;
-        }
-        if (helpers.shouldStopPooling(onInitResponse, 'order')) {
-          stopPolling();
-        }
         const initOrderPerBppPerProvider = {};
         // eslint-disable-next-line no-prototype-builtins
-        if (onInitResponse.every((item) => item.hasOwnProperty('message'))) {
-          onInitResponse.forEach((initResponse) => {
+        if (onInitResponse[0].message.catalogs.responses.every((item) => item.hasOwnProperty('message'))) {
+          onInitResponse[0].message.catalogs.responses.forEach((initResponse) => {
             const { order: currentOnInitData } = initResponse.message;
             if (!currentOnInitData) {
               return;
@@ -416,8 +391,10 @@ export default {
 
           // localStorage.removeItem('transactionId');
         }
+      } catch (error) {
+        console.error(`error in init request ${error}`)
       }
-    );
+    };
 
     onBeforeMount(() => {
       load();

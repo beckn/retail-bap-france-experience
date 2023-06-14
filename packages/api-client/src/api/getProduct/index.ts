@@ -14,14 +14,17 @@ export default async function getProduct(
   customQuery?: CustomQuery
 ): Promise<AckResponse> {
   const criteriaData: { [k: string]: any } = {
-    delivery_location: params.locationIs
+    dropLocation: params.locationIs
   };
-  if (params.providerId) criteriaData.provider_id = params.providerId;
-  if (params.itemContains) criteriaData.search_string = params.itemContains;
+  // if (params.providerId) criteriaData.provider_id = params.providerId;
+  // if (params.itemContains) criteriaData.search_string = params.itemContains;
+  if (params.itemContains) criteriaData.searchString = params.itemContains;
   if (params.category) criteriaData.category_name = params.category;
 
   const qParams = {
-    context: {},
+    context: {
+      domain: 'retail'
+    },
     message: {
       criteria: criteriaData
     }
@@ -30,7 +33,9 @@ export default async function getProduct(
   const client = context.client as sa.SuperAgent<sa.SuperAgentRequest>;
   Logger.error(qParams);
   return client
-    .post(config.api.url + config.api.endpoints.search)
+    .post(
+      'https://api-node-dev.mobilityreferencebap.becknprotocol.io/client/v2/search'
+    )
     .send(qParams)
     .then((res) => {
       return res.body as AckResponse;

@@ -11,7 +11,9 @@ export default async function confirmOrder(
   const config = context.config as Config;
   const client = context.client as sa.SuperAgent<sa.SuperAgentRequest>;
   return client
-    .post(config.api.url + config.api.endpoints.confirmOrder)
+    .post(
+      'https://api-node-dev.mobilityreferencebap.becknprotocol.io/client/v2/confirm'
+    )
     .set({
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`

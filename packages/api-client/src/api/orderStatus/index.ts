@@ -12,7 +12,9 @@ export async function orderStatus(
   const config = context.config as Config;
   const client = context.client as sa.SuperAgent<sa.SuperAgentRequest>;
   return client
-    .post(config.api.url + config.api.endpoints.orderStatus)
+    .post(
+      'https://api-node-dev.mobilityreferencebap.becknprotocol.io/client/v2/status'
+    )
     .send(params)
     .set({
       'Content-Type': 'application/json',
