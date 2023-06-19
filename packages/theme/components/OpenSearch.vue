@@ -13,14 +13,30 @@
           what you want to buy and we'll take care of the rest.
         </p>
         <div class="open-search-input">
-          <input v-on:keyup.enter="openSearch" v-model="message" :valid="false" errorMessage="errer" type="text"
-            placeholder="Search for anything" :disabled="!selectedLocation.latitude || !selectedLocation.longitude
-              " v-e2e="'home-search-input'" />
-          <SfButton class="button-pos sf-button--pure color-primary" :class="{
-            'is-disabled--button':
+          <input
+            v-on:keyup.enter="openSearch"
+            v-model="message"
+            :valid="false"
+            errorMessage="errer"
+            type="text"
+            placeholder="Search for anything"
+            :disabled="
               !selectedLocation.latitude || !selectedLocation.longitude
-          }" @click="openSearch" :disabled="!selectedLocation.latitude || !selectedLocation.longitude
-  " v-e2e="'home-search-button'">
+            "
+            v-e2e="'home-search-input'"
+          />
+          <SfButton
+            class="button-pos sf-button--pure color-primary"
+            :class="{
+              'is-disabled--button':
+                !selectedLocation.latitude || !selectedLocation.longitude
+            }"
+            @click="openSearch"
+            :disabled="
+              !selectedLocation.latitude || !selectedLocation.longitude
+            "
+            v-e2e="'home-search-button'"
+          >
             <span class="sf-search-bar__icon">
               <SfIcon color="var(--c-text)" size="18px" icon="search" />
             </span>
@@ -37,22 +53,30 @@
 
           <div class="modal-body">
             <div>
-              <div style="display: flex; justify-content: flex-start; align-items: center; width: 100%; ">
-                <SfImage style="width: 100%;" :width="328" :height="142" alt="" class="empty-cart__image trek-item-image"
-                  :src="importedOrderObject !== null
-                    ? importedOrderObject.message.order.item[0].descriptor
-                      .images[0]
-                    : ''
-                    " />
+              <div
+                style="display: flex; justify-content: flex-start; align-items: center; width: 100%; "
+              >
+                <SfImage
+                  style="width: 100%;"
+                  :width="328"
+                  :height="142"
+                  alt=""
+                  class="empty-cart__image trek-item-image"
+                  :src="
+                    importedOrderObject !== null
+                      ? importedOrderObject.message.order.item[0].descriptor
+                          .images[0]
+                      : ''
+                  "
+                />
               </div>
 
               <br />
               <div class="support-text">
-                You appear to have placed an order for
-                "{{
+                You appear to have placed an order for "{{
                   importedOrderObject !== null
-                  ? importedOrderObject.message.order.item[0].descriptor.name
-                  : ''
+                    ? importedOrderObject.message.order.item[0].descriptor.name
+                    : ''
                 }}"
                 <br />
                 <div class="scrollable-div">
@@ -61,18 +85,25 @@
                       <span class="trektittle">
                         {{
                           importedOrderObject !== null
-                          ? importedOrderObject.message.order.item[0]
-                            .descriptor.name
-                          : ''
-                        }}</span>
+                            ? importedOrderObject.message.order.item[0]
+                                .descriptor.name
+                            : ''
+                        }}</span
+                      >
                     </div>
                     <div>
                       <span class="trektittle">Order ID:</span>
-                      <span>{{
-                        importedOrderObject !== null
-                        ? importedOrderObject.message.order.id
-                        : ''
-                      }}</span>
+                      <span
+                        style="    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 100px;
+    display: block;"
+                        >{{
+                          importedOrderObject !== null
+                            ? importedOrderObject.message.order.id
+                            : ''
+                        }}</span
+                      >
                     </div>
                   </div>
                   <div>
@@ -84,8 +115,9 @@
                       175131 -->
                       {{
                         importedOrderObject !== null
-                        ? importedOrderObject.message.order.item[0].descriptor.short_desc
-                        : ''
+                          ? importedOrderObject.message.order.item[0].descriptor
+                              .short_desc
+                          : ''
                       }}
                     </P>
                   </div>
@@ -110,15 +142,17 @@
                       <span class="trektittle"> Total Price</span>
                     </div>
                     <div>
-                      <span>€
+                      <span
+                        >€
                         {{
                           formatPrice(
                             importedOrderObject !== null
                               ? importedOrderObject.message.order.item[0].price
-                                .value
+                                  .value
                               : ''
                           )
-                        }}</span>
+                        }}</span
+                      >
                     </div>
                   </div>
 
@@ -129,8 +163,13 @@
               </div>
 
               <div>
-                <SfButton class="support-btns" aria-label="Close modal" type="button" @click="himalayan">Yes! Show me the
-                  list</SfButton>
+                <SfButton
+                  class="support-btns"
+                  aria-label="Close modal"
+                  type="button"
+                  @click="himalayan"
+                  >Yes! Show me the list</SfButton
+                >
               </div>
 
               <div @click="isOpenTrekModal" class="btn">
@@ -139,7 +178,11 @@
             </div>
           </div>
         </ModalSlide>
-        <ModalSlide class="fetch-GPT-modal" :visible="enableLoader" @close="enableLoader = false">
+        <ModalSlide
+          class="fetch-GPT-modal"
+          :visible="enableLoader"
+          @close="enableLoader = false"
+        >
           <div style="height: 375px;">
             <div class="modal-heading">Imported Order</div>
             <div>
@@ -147,23 +190,37 @@
             </div>
 
             <div>
-              <LoadingCircle :customHeadertext="'Please wait,'"
-                :customText="'while we connect to ChatGPT to create a shopping list for you!'" :enable="enableLoader"
-                key="loding-cir" />
+              <LoadingCircle
+                :customHeadertext="'Please wait,'"
+                :customText="
+                  'while we connect to ChatGPT to create a shopping list for you!'
+                "
+                :enable="enableLoader"
+                key="loding-cir"
+              />
             </div>
 
             <div class="powered-by-container-texts">
               <span class="powered-up-text">Powered by</span>
 
-              <SfImage alt="chat-gpt-icon" class="chat-gpt-icon" src="/icons/chatgpt.png" width="52px" height="10px" />
+              <SfImage
+                alt="chat-gpt-icon"
+                class="chat-gpt-icon"
+                src="/icons/chatgpt.png"
+                width="52px"
+                height="10px"
+              />
             </div>
           </div>
         </ModalSlide>
 
-        <ModalSlide :visible="shopinglist" @close="
-          shopinglist = false;
-        selectedTrackingId = null;
-        ">
+        <ModalSlide
+          :visible="shopinglist"
+          @close="
+            shopinglist = false;
+            selectedTrackingId = null;
+          "
+        >
           <div class="modal-heading">Shopping List</div>
           <div>
             <hr class="sf-divider" />
@@ -173,76 +230,125 @@
               <b>The best thing about a vacation, is planning it!</b>
               <br />
 
-              <vue-typer @completed="onComplete" :repeat="0"
-                text="Here are some essential items you may need:"></vue-typer>
+              <vue-typer
+                @completed="onComplete"
+                :repeat="0"
+                text="Here are some essential items you may need:"
+              ></vue-typer>
             </div>
 
             <div v-if="isRenderShoppingItems" class="shopping-container">
-              <label v-for="(item, idx) in shopinglistArray" :key="idx" class="container">
+              <label
+                v-for="(item, idx) in shopinglistArray"
+                :key="idx"
+                class="container"
+              >
                 <vue-typer :repeat="0" :text="item"></vue-typer>
-                <input type="checkbox" checked="checked" :value="item" v-model="selectedLocations" />
+                <input
+                  type="checkbox"
+                  checked="checked"
+                  :value="item"
+                  v-model="selectedLocations"
+                />
                 <span class="checkmark"></span>
               </label>
             </div>
 
-            <div style="display: flex; align-items: center; justify-content: center;">
+            <div
+              style="display: flex; align-items: center; justify-content: center;"
+            >
               <span class="gpt">Powered by</span>
               <div style="margin-left: 4px;">
-                <SfImage alt="copypast" class="empty-cart__image" src="/icons/chatgpt.png" width="52px" height="10px" />
+                <SfImage
+                  alt="copypast"
+                  class="empty-cart__image"
+                  src="/icons/chatgpt.png"
+                  width="52px"
+                  height="10px"
+                />
               </div>
             </div>
 
             <div>
-              <SfButton :disabled="!selectedLocations.length > 0" class="support-btns" aria-label="Close modal"
-                type="button" @click="
+              <SfButton
+                :disabled="!selectedLocations.length > 0"
+                class="support-btns"
+                aria-label="Close modal"
+                type="button"
+                @click="
                   adresslist = true;
-                shopinglist = false;
-                ">
+                  shopinglist = false;
+                "
+              >
                 Select Delivery Location
               </SfButton>
             </div>
-            <div @click="shopinglist = false"
-              style="text-align: center;padding: 05px; color: coral; color: rgba(255, 85, 82, 1);">
+            <div
+              @click="shopinglist = false"
+              style="text-align: center;padding: 05px; color: coral; color: rgba(255, 85, 82, 1);"
+            >
               cancel
             </div>
           </div>
         </ModalSlide>
 
-        <ModalSlide :visible="adresslist" @close="
-          adresslist = false;
-        selectedTrackingId = null;
-        ">
+        <ModalSlide
+          :visible="adresslist"
+          @close="
+            adresslist = false;
+            selectedTrackingId = null;
+          "
+        >
           <div class="modal-heading">Select delivery location</div>
           <div>
             <hr class="sf-divider" />
           </div>
           <div class="modal-body">
-            <div class="support-text" style="font-weight: 700; font-size: 16px;">
-              Select a delivery location. We’ll connect you to the local suppliers for a seamless delivery:
+            <div
+              class="support-text"
+              style="font-weight: 700; font-size: 16px;"
+            >
+              Select a delivery location. We’ll connect you to the local
+              suppliers for a seamless delivery:
 
               <br />
               <br />
               <div>
                 <p v-show="selectedLocation.address">
                   <input type="radio" id="test1" name="radio-group" checked />
-                  <label for="test1" style="font-weight: 500; font-size: 16px;">{{ selectedLocation.address }}</label>
+                  <label
+                    for="test1"
+                    style="font-weight: 500; font-size: 16px;"
+                    >{{ selectedLocation.address }}</label
+                  >
                 </p>
                 <p>
                   <input type="radio" id="test2" name="radio-group" />
-                  <label for="test2"
+                  <label
+                    for="test2"
                     style="font-weight: 500;
-                                                                                                                                                                            font-size: 16px;">
-                    {{ endLocationOfTheTravel }}</label>
+                                                                                                                                                                            font-size: 16px;"
+                  >
+                    {{ endLocationOfTheTravel }}</label
+                  >
                 </p>
               </div>
               <br />
             </div>
 
             <div>
-              <SfButton class="support-btns" aria-label="Close modal" type="button" @click="openSearch">Search Items
+              <SfButton
+                class="support-btns"
+                aria-label="Close modal"
+                type="button"
+                @click="openSearch"
+                >Search Items
               </SfButton>
             </div>
-            <div @click="adresslist = false" style="text-align: center;padding: 5px; color: rgba(255, 85, 82, 1);">
+            <div
+              @click="adresslist = false"
+              style="text-align: center;padding: 5px; color: rgba(255, 85, 82, 1);"
+            >
               cancel
             </div>
           </div>
@@ -410,7 +516,7 @@ export default {
     });
 
     const openSearch = () => {
-      console.log('message.value', message.value)
+      console.log('message.value', message.value);
       if (message.value) {
         if (errorMsg.value) errorMsg.value = false;
         context.root.$router.push({
@@ -421,7 +527,7 @@ export default {
         });
       } else if (selectedLocations.value) {
         const items = selectedLocations.value.join(' ');
-        console.log('items in the search', items)
+        console.log('items in the search', items);
         if (errorMsg.value) errorMsg.value = false;
         context.root.$router.push({
           name: 'Search',
@@ -789,7 +895,7 @@ export default {
 }
 
 /* When the checkbox is checked, add a blue background */
-.container input:checked~.checkmark {
+.container input:checked ~ .checkmark {
   background: rgba(243, 122, 32, 1);
 }
 
@@ -801,7 +907,7 @@ export default {
 }
 
 /* Show the checkmark when checked */
-.container input:checked~.checkmark:after {
+.container input:checked ~ .checkmark:after {
   display: block;
 }
 
@@ -824,8 +930,8 @@ export default {
   left: -9999px;
 }
 
-[type='radio']:checked+label,
-[type='radio']:not(:checked)+label {
+[type='radio']:checked + label,
+[type='radio']:not(:checked) + label {
   position: relative;
   padding-left: 28px;
   cursor: pointer;
@@ -834,8 +940,8 @@ export default {
   color: #666;
 }
 
-[type='radio']:checked+label:before,
-[type='radio']:not(:checked)+label:before {
+[type='radio']:checked + label:before,
+[type='radio']:not(:checked) + label:before {
   content: '';
   position: absolute;
   left: 0;
@@ -847,8 +953,8 @@ export default {
   background: #fff;
 }
 
-[type='radio']:checked+label:after,
-[type='radio']:not(:checked)+label:after {
+[type='radio']:checked + label:after,
+[type='radio']:not(:checked) + label:after {
   content: '';
   width: 12px;
   height: 12px;
@@ -861,13 +967,13 @@ export default {
   transition: all 0.2s ease;
 }
 
-[type='radio']:not(:checked)+label:after {
+[type='radio']:not(:checked) + label:after {
   opacity: 0;
   -webkit-transform: scale(0);
   transform: scale(0);
 }
 
-[type='radio']:checked+label:after {
+[type='radio']:checked + label:after {
   opacity: 1;
   -webkit-transform: scale(1);
   transform: scale(1);
