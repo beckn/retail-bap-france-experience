@@ -576,14 +576,23 @@ export default {
     const { init: status, stopPolling: stopStatusPolling } = useOrderStatus(
       'status'
     );
+    const orders = JSON.parse(localStorage.getItem('orderHistory')) ?? [];
 
+    order.value = orders[0];
+    //console.log(order.value.order.items[0].descriptor.name);
     const importedOrderObject = JSON.parse(
       localStorage.getItem('importedOrderObject')
     );
+    //console.log(importedOrderObject);
     const itemNameInOrderDetails =
-      importedOrderObject.message.order.item[0].descriptor.name;
+      importedOrderObject === null
+        ? order.value.order.items[0].descriptor.name
+        : importedOrderObject.message.order.item[0].descriptor.name;
 
-    const orderIdInTheOrderDetails = importedOrderObject.message.order.id;
+    const orderIdInTheOrderDetails =
+      importedOrderObject === null
+        ? order.value.order.fulfillment.id
+        : importedOrderObject.message.order.id;
 
     const trackingData = computed(() => {
       if (!trackResult.value) {
@@ -747,7 +756,7 @@ export default {
       order.value = orders.find((ord) => {
         return ord.parentOrderId === parentOrderId;
       });
-
+      
       orderPlacementTime.value = helpers.getOrderPlacementTimeline(
         order.value.order?.created_at
       );
