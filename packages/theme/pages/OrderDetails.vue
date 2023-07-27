@@ -47,21 +47,34 @@
               <hr class="sf-divider divider" />
             </div>
 
-            <div :key="orderId" v-for="(order, orderId, index) in order.orderData" class="shipment-wrapper">
+            <div
+              :key="orderId"
+              v-for="(order, orderId, index) in order.orderData"
+              class="shipment-wrapper"
+            >
               <CardContent class="flex-space-bw">
                 <div class="address-text">
                   <span>Order Id</span>
                 </div>
                 <div class="address-text">
-                  <span>{{ orderIdInTheOrderDetails }}</span>
+                  <span
+                    style="    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 100px;
+    display: block;"
+                    >{{ orderIdInTheOrderDetails }}</span
+                  >
                 </div>
               </CardContent>
-              <CardContent v-if="orderStatusData && orderStatusData[index]" class="flex-space-bw">
+              <CardContent
+                v-if="orderStatusData && orderStatusData[index]"
+                class="flex-space-bw"
+              >
                 <div class="address-text"><span>Order Status</span></div>
                 <div class="address-text">
                   <span>{{
                     orderStatusData[index].state.charAt(0).toUpperCase() +
-                    orderStatusData[index].state.slice(1).toLowerCase()
+                      orderStatusData[index].state.slice(1).toLowerCase()
                   }}</span>
                 </div>
               </CardContent>
@@ -74,28 +87,38 @@
                   {{ order.items[0].quantity.count }}
                 </div>
                 <div v-if="order.items.length > 1">
-                  <div @click="
-                    openItemsModal = true;
-                  selectMoreItemsId = orderId;
-                                                                                                                        "
-                    class="more-items-button">
-                    <span class="more-items-text">{{ order.items.length - 1 }} more items</span>
+                  <div
+                    @click="
+                      openItemsModal = true;
+                      selectMoreItemsId = orderId;
+                    "
+                    class="more-items-button"
+                  >
+                    <span class="more-items-text"
+                      >{{ order.items.length - 1 }} more items</span
+                    >
                   </div>
                 </div>
               </CardContent>
 
               <div class="order-buttons-wrapper">
-                <SfButton class="sf-button--pure" @click="
-                  openTrackModal = true;
-                selectedTrackingId = index;
-                                                                                                            ">
+                <SfButton
+                  class="sf-button--pure"
+                  @click="
+                    openTrackModal = true;
+                    selectedTrackingId = index;
+                  "
+                >
                   <div class="color-def">Track</div>
                 </SfButton>
 
-                <SfButton class="sf-button--pure" @click="
-                  openSupportModal = true;
-                selectedSupportId = index;
-                                                                                                            ">
+                <SfButton
+                  class="sf-button--pure"
+                  @click="
+                    openSupportModal = true;
+                    selectedSupportId = index;
+                  "
+                >
                   <div class="color-def">Support</div>
                 </SfButton>
               </div>
@@ -115,16 +138,23 @@
             <SfAccordionItem :header="'Fulfillment Progress'">
               <CardContent class="flex-space-bw">
                 <div class="fulfillment-progress">
-                  <div v-for="(currFulfillment,
+                  <div
+                    v-for="(currFulfillment,
                     fulfillmentId,
-                    index) in fulfillmentData" class="track-details" :class="{
-    first: index === 0,
-    last: index === Object.keys(fulfillmentData).length - 1
-  }" :key="index">
-                    <template v-if="
-                      currFulfillment.state &&
-                      currFulfillment.state.descriptor
-                    ">
+                    index) in fulfillmentData"
+                    class="track-details"
+                    :class="{
+                      first: index === 0,
+                      last: index === Object.keys(fulfillmentData).length - 1
+                    }"
+                    :key="index"
+                  >
+                    <template
+                      v-if="
+                        currFulfillment.state &&
+                          currFulfillment.state.descriptor
+                      "
+                    >
                       <div class="check-container">
                         <div v-if="index !== 0" class="dot"></div>
                         <div v-if="index !== 0" class="dot"></div>
@@ -132,12 +162,18 @@
                         <div class="check">
                           <img src="/icons/check.svg" alt="" />
                         </div>
-                        <div v-if="
-                          index !== Object.keys(fulfillmentData).length - 1
-                        " class="dot"></div>
-                        <div v-if="
-                          index !== Object.keys(fulfillmentData).length - 1
-                        " class="dot"></div>
+                        <div
+                          v-if="
+                            index !== Object.keys(fulfillmentData).length - 1
+                          "
+                          class="dot"
+                        ></div>
+                        <div
+                          v-if="
+                            index !== Object.keys(fulfillmentData).length - 1
+                          "
+                          class="dot"
+                        ></div>
                       </div>
                       <div style="margin-top: -18px;" class="step-details">
                         <div class="step-number">Shipment {{ index + 1 }}</div>
@@ -162,9 +198,13 @@
       <Card>
         <SfAccordion>
           <SfAccordionItem :header="'Shipping'">
-            <AddressCard :name="order.shippingAddress.name" :address="order.shippingAddress.address"
-              :mobile="order.shippingAddress.mobile" :building="order.shippingAddress.building"
-              :pincode="order.shippingAddress.pincode" />
+            <AddressCard
+              :name="order.shippingAddress.name"
+              :address="order.shippingAddress.address"
+              :mobile="order.shippingAddress.mobile"
+              :building="order.shippingAddress.building"
+              :pincode="order.shippingAddress.pincode"
+            />
           </SfAccordionItem>
         </SfAccordion>
       </Card>
@@ -177,9 +217,14 @@
             <CardContent v-if="order.shippingAsBilling" class="flex-space-bw">
               <div class="address-text">Same as Shipping Details</div>
             </CardContent>
-            <AddressCard v-else :name="order.billingAddress.name" :address="order.billingAddress.address"
-              :mobile="order.billingAddress.mobile" :building="order.billingAddress.building"
-              :pincode="order.billingAddress.pincode" />
+            <AddressCard
+              v-else
+              :name="order.billingAddress.name"
+              :address="order.billingAddress.address"
+              :mobile="order.billingAddress.mobile"
+              :building="order.billingAddress.building"
+              :pincode="order.billingAddress.pincode"
+            />
           </SfAccordionItem>
         </SfAccordion>
       </Card>
@@ -212,7 +257,7 @@
                 <div class="address-text-value">
                   {{
                     value.payment.status.charAt(0).toUpperCase() +
-                    value.payment.status.slice(1).toLowerCase()
+                      value.payment.status.slice(1).toLowerCase()
                   }}
                 </div>
               </CardContent>
@@ -234,11 +279,21 @@
         <Card>
           <SfAccordion>
             <SfAccordionItem :header="'Fulfillment'">
-              <div v-for="(currOrderStatus, orderStatusId) in orderStatusData" :key="orderStatusId">
+              <div
+                v-for="(currOrderStatus, orderStatusId) in orderStatusData"
+                :key="orderStatusId"
+              >
                 <CardContent class="flex-space-bw">
                   <div class="address-text">ID</div>
                   <div class="address-text">
-                    {{ orderIdInTheOrderDetails }}
+                    <span
+                      style="text-overflow: ellipsis;
+    overflow: hidden;
+    width: 100px;
+    display: block;"
+                    >
+                      {{ orderIdInTheOrderDetails }}</span
+                    >
                   </div>
                 </CardContent>
                 <!-- <CardContent class="flex-space-bw">
@@ -262,14 +317,20 @@
 
       <div class="sub-heading"></div>
 
-      <button class="sf-button color-primary support-btns card-checkbox" @click="goHome">
+      <button
+        class="sf-button color-primary support-btns card-checkbox"
+        @click="goHome"
+      >
         <div class="f-btn-text">Home</div>
       </button>
 
-      <ModalSlide :visible="openSupportModal" @close="
-        openSupportModal = false;
-      selectedSupportId = null;
-                                                ">
+      <ModalSlide
+        :visible="openSupportModal"
+        @close="
+          openSupportModal = false;
+          selectedSupportId = null;
+        "
+      >
         <div class="modal-heading">Contact Support</div>
         <div>
           <hr class="sf-divider" />
@@ -285,14 +346,32 @@
                 )
               }}
             </div>
-            <SfButton class="support-btns" v-if="supportData[selectedSupportId].phone"
-              @click="openWindow('tel:' + supportData[selectedSupportId].phone)" aria-label="Close modal" type="button">
-              Call us</SfButton>
-            <SfButton class="support-btns" v-if="supportData[selectedSupportId].email" @click="
-              openWindow('mailto:' + supportData[selectedSupportId].email)
-            " aria-label="Close modal" type="button">Email us</SfButton>
-            <SfButton class="support-btns" v-if="supportData[selectedSupportId].uri"
-              @click="openWindow(supportData[selectedSupportId].uri)" aria-label="Close modal" type="button">Chat with us
+            <SfButton
+              class="support-btns"
+              v-if="supportData[selectedSupportId].phone"
+              @click="openWindow('tel:' + supportData[selectedSupportId].phone)"
+              aria-label="Close modal"
+              type="button"
+            >
+              Call us</SfButton
+            >
+            <SfButton
+              class="support-btns"
+              v-if="supportData[selectedSupportId].email"
+              @click="
+                openWindow('mailto:' + supportData[selectedSupportId].email)
+              "
+              aria-label="Close modal"
+              type="button"
+              >Email us</SfButton
+            >
+            <SfButton
+              class="support-btns"
+              v-if="supportData[selectedSupportId].uri"
+              @click="openWindow(supportData[selectedSupportId].uri)"
+              aria-label="Close modal"
+              type="button"
+              >Chat with us
             </SfButton>
           </div>
           <div v-else class="support-text">
@@ -301,10 +380,13 @@
         </div>
       </ModalSlide>
 
-      <ModalSlide :visible="openTrackModal" @close="
-        openTrackModal = false;
-      selectedTrackingId = null;
-                                                ">
+      <ModalSlide
+        :visible="openTrackModal"
+        @close="
+          openTrackModal = false;
+          selectedTrackingId = null;
+        "
+      >
         <div class="modal-heading">Track</div>
         <div>
           <hr class="sf-divider" />
@@ -319,8 +401,13 @@
             }} -->
           </div>
           <div v-else>
-            <SfButton class="support-btns" aria-label="Close modal" type="button"
-              @click="openWindow(trackingData[selectedTrackingId])">open Link</SfButton>
+            <SfButton
+              class="support-btns"
+              aria-label="Close modal"
+              type="button"
+              @click="openWindow(trackingData[selectedTrackingId])"
+              >open Link</SfButton
+            >
           </div>
           <!-- <SfButton class="support-btns" aria-label="Close modal" type="button"
             >Call us</SfButton
@@ -331,10 +418,13 @@
         </div>
       </ModalSlide>
 
-      <ModalSlide :visible="openItemsModal" @close="
-        openItemsModal = false;
-      selectMoreItemsId = null;
-                                                ">
+      <ModalSlide
+        :visible="openItemsModal"
+        @close="
+          openItemsModal = false;
+          selectMoreItemsId = null;
+        "
+      >
         <div class="modal-heading">Ordered Items</div>
         <div>
           <hr class="sf-divider" />
@@ -350,12 +440,21 @@
           </CardContent>
           <div v-if="selectMoreItemsId !== null">
             <CardContent class="more-items-flex">
-              <div v-for="(product, index) in getMoreItems(
-                order,
-                selectMoreItemsId
-              )" :key="index" class="item-wrapper">
+              <div
+                v-for="(product, index) in getMoreItems(
+                  order,
+                  selectMoreItemsId
+                )"
+                :key="index"
+                class="item-wrapper"
+              >
                 <div class="s-p-image">
-                  <SfImage :src="cartGetters.getItemImage(product)" alt="product img" :width="85" :height="90" />
+                  <SfImage
+                    :src="cartGetters.getItemImage(product)"
+                    alt="product img"
+                    :width="85"
+                    :height="90"
+                  />
                 </div>
                 <div class="s-p-details">
                   <div class="s-p-name">
@@ -371,17 +470,22 @@
                   </div>
                   <div class="s-p-weight">x {{ product.quantity }}</div>
                   <div class="s-p-price">
-                    € {{
-                      formatPrice(cartGetters.getItemPrice(product).regular *
-                        product.quantity)
+                    €
+                    {{
+                      formatPrice(
+                        cartGetters.getItemPrice(product).regular *
+                          product.quantity
+                      )
                     }}
-
                   </div>
                 </div>
               </div>
             </CardContent>
           </div>
-          <button class="sf-button color-primary support-btns" @click="openItemsModal = false">
+          <button
+            class="sf-button color-primary support-btns"
+            @click="openItemsModal = false"
+          >
             <div class="f-btn-text">Okay</div>
           </button>
         </div>
@@ -460,31 +564,35 @@ export default {
     const selectedSupportId = ref(null);
     const selectMoreItemsId = ref(null);
     const { clear } = useCart();
+    const trackResult = ref(null);
+    const supportResult = ref(null);
+    const statusResult = ref(null);
 
-    const {
-      poll: onTrack,
-      init: track,
-      pollResults: trackResult,
-      stopPolling: stopPollingOnTrack
-    } = useTrack('track');
-    const {
-      poll: onSupport,
-      init: support,
-      pollResults: supportResult,
-      stopPolling: stopPollingSupport
-    } = useSupport('support');
+    const { init: track, stopPolling: stopPollingOnTrack } = useTrack('track');
+    const { init: support, stopPolling: stopPollingSupport } = useSupport(
+      'support'
+    );
 
-    const {
-      poll: onStatus,
-      init: status,
-      pollResults: statusResult,
-      stopPolling: stopStatusPolling
-    } = useOrderStatus('status');
+    const { init: status, stopPolling: stopStatusPolling } = useOrderStatus(
+      'status'
+    );
+    const orders = JSON.parse(localStorage.getItem('orderHistory')) ?? [];
 
-    const importedOrderObject = JSON.parse(localStorage.getItem('importedOrderObject'))
-    const itemNameInOrderDetails = importedOrderObject.message.order.item[0].descriptor.name;
+    order.value = orders[0];
+    //console.log(order.value.order.items[0].descriptor.name);
+    const importedOrderObject = JSON.parse(
+      localStorage.getItem('importedOrderObject')
+    );
+    //console.log(importedOrderObject);
+    const itemNameInOrderDetails =
+      importedOrderObject === null
+        ? order.value.order.items[0].descriptor.name
+        : importedOrderObject.message.order.item[0].descriptor.name;
 
-    const orderIdInTheOrderDetails = importedOrderObject.message.order.id;
+    const orderIdInTheOrderDetails =
+      importedOrderObject === null
+        ? order.value.order.fulfillment.id
+        : importedOrderObject.message.order.id;
 
     const trackingData = computed(() => {
       if (!trackResult.value) {
@@ -603,14 +711,12 @@ export default {
     const callSupport = async () => {
       const params = createStatusTrackAndSupportOrderRequest(
         order.value,
-        'ref_id'
+        'ref_id',
+        'supportRequestDto'
       );
       try {
         const response = await support(params, localStorage.getItem('token'));
-        await onSupport(
-          { messageIds: helpers.getMessageIdsFromResponse(response) },
-          localStorage.getItem('token')
-        );
+        supportResult.value = response;
       } catch (error) {
         console.log('Error calling support apis - ', error);
       }
@@ -620,14 +726,12 @@ export default {
       const params = createStatusTrackAndSupportOrderRequest(
         order.value,
         'order_id',
+        'statusRequestDto',
         JSON.parse(localStorage.getItem('importedOrderObject'))
       );
       try {
         const response = await status(params, localStorage.getItem('token'));
-        await onStatus(
-          { orderIds: order.value.order.id },
-          localStorage.getItem('token')
-        );
+        statusResult.value = response;
       } catch (error) {
         console.log('Error calling track apis - ', error);
       }
@@ -636,14 +740,12 @@ export default {
     const callTrack = async () => {
       const params = createStatusTrackAndSupportOrderRequest(
         order.value,
-        'order_id'
+        'order_id',
+        'trackRequestDto'
       );
       try {
         const response = await track(params, localStorage.getItem('token'));
-        await onTrack(
-          { messageIds: helpers.getMessageIdsFromResponse(response) },
-          localStorage.getItem('token')
-        );
+        trackResult.value = response;
       } catch (error) {
         console.log('Error calling track apis - ', error);
       }
@@ -654,7 +756,7 @@ export default {
       order.value = orders.find((ord) => {
         return ord.parentOrderId === parentOrderId;
       });
-
+      
       orderPlacementTime.value = helpers.getOrderPlacementTimeline(
         order.value.order?.created_at
       );
@@ -665,6 +767,11 @@ export default {
       enableLoader.value = false;
       localStorage.removeItem('orderProgress');
       localStorage.removeItem('transactionId');
+
+      setInterval(async () => {
+        await callStatus();
+      }, 2000);
+
       clear();
     });
 
@@ -704,7 +811,10 @@ export default {
       selectMoreItemsId,
       getMoreItems,
       orderIdInTheOrderDetails,
-      itemNameInOrderDetails
+      itemNameInOrderDetails,
+      trackResult,
+      statusResult,
+      supportResult
     };
   },
   methods: {

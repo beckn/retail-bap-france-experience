@@ -80,7 +80,7 @@ import Footer from '~/components/Footer.vue';
 import CardContent from '~/components/CardContent.vue';
 import helpers, { createConfirmOrderRequest } from '../helpers/helpers';
 const { toggleCartSidebar } = useUiState();
-export default {  
+export default {
   name: 'Payment',
   components: {
     SfButton,
@@ -116,38 +116,13 @@ export default {
       return paymentMethod.value !== '';
     });
 
-    const proceedToConfirm = async () => {
-      enableLoader.value = true;
-      order.value.paymentMethod = paymentMethod.value;
-      const params = createConfirmOrderRequest(
-        order.value.transactionId,
-        order.value.cart,
-        order.value.shippingAddress,
-        order.value.billingAddress,
-        order.value.shippingAsBilling,
-        '12.9063433,77.5856825',
-        order.value.initOrder
-      );
-      const confirmResponses = await init(
-        params,
-        localStorage.getItem('token')
-      );
-
-      let messageIds = '';
-      confirmResponses.forEach((confirmResponse) => {
-        messageIds += confirmResponse.context?.message_id + ',';
-      });
-      messageIds = messageIds.substring(0, messageIds.length - 1);
-      await poll({ messageIds: messageIds }, localStorage.getItem('token'));
-    };
-
     const setOrderHistory = (onConfirmResponse) => {
       // Next Line: To be removed after orderData flow is set
-      order.value.order = onConfirmResponse[0].message.order;
+      order.value.order = onConfirmResponse[0].message.responses[0].message.order;
       const parentOrderId = helpers.generateUniqueOrderId();
       const orderData = {};
 
-      onConfirmResponse.forEach((onConfirmData) => {
+      onConfirmResponse[0].message.responses.forEach((onConfirmData) => {
         const currentOrderData = onConfirmData.message?.order;
         currentOrderData.bppId = onConfirmData.context?.bpp_id;
         if (currentOrderData) {
@@ -168,6 +143,32 @@ export default {
           id: parentOrderId
         }
       });
+    };
+
+    const proceedToConfirm = async () => {
+      enableLoader.value = true;
+      order.value.paymentMethod = paymentMethod.value;
+      const params = createConfirmOrderRequest(
+        order.value.transactionId,
+        order.value.cart,
+        order.value.shippingAddress,
+        order.value.billingAddress,
+        order.value.shippingAsBilling,
+        '12.9063433,77.5856825',
+        order.value.initOrder
+      );
+
+      try {
+        const confirmResponses = await init(
+          params,
+          localStorage.getItem('token')
+
+        );
+        setOrderHistory(confirmResponses);
+        enableLoader.value = false
+      } catch (error) {
+        console.error(`error in confirm call ${error}`)
+      }
     };
 
     const goBack = () => context.root.$router.back();

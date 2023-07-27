@@ -89,7 +89,9 @@ export const createOrderRequest = (
     cart
   );
 
-  const initOrderRequest = [];
+  const initOrderRequest = {
+    initRequestDto: []
+  };
 
   Object.keys(cartItemsPerBppPerProvider).forEach((bppId) => {
     Object.keys(cartItemsPerBppPerProvider[bppId]).forEach((providerId) => {
@@ -97,15 +99,42 @@ export const createOrderRequest = (
         context: {
           transaction_id: transactionId,
           bpp_id: bppId,
-          bpp_uri: cart.bpp_uri
+          bpp_uri: cart.bpp_uri,
+          domain: 'retail'
         },
         message: {
-          items: cartItemsPerBppPerProvider[bppId][providerId],
-          billing_info: bAddress,
-          delivery_info: deliveryInfo
+          order: {
+            provider: {
+              id:
+                cartItemsPerBppPerProvider[bppId][providerId][0].bppProvider.id,
+              locations:
+                cartItemsPerBppPerProvider[bppId][providerId][0].locations
+            },
+            items: cartItemsPerBppPerProvider[bppId][providerId],
+            addOns: [],
+            offers: [],
+            billing: bAddress,
+            fulfillment: {
+              type: deliveryInfo.type,
+              end: {
+                location: deliveryInfo.location,
+                contact: {
+                  phone: deliveryInfo.phone,
+                  email: deliveryInfo.email
+                }
+              },
+              customer: {
+                person: {
+                  name: deliveryInfo.name
+                }
+              },
+              id:
+                cartItemsPerBppPerProvider[bppId][providerId][0].bppProvider.id
+            }
+          }
         }
       };
-      initOrderRequest.push(initItems);
+      initOrderRequest.initRequestDto.push(initItems);
     });
   });
 
@@ -123,14 +152,17 @@ export const createConfirmOrderRequest = (
 ) => {
   const billingInfo = getBillingInfo(
     shippingAsBilling ? shippingAddress : billingAddress,
-    'billingInfo'
+    'address'
   );
   const deliveryInfo = getDeliveryInfo(shippingAddress, gps);
 
   const cartItemsPerBppPerProvider = cartGetters.getCartItemsPerBppPerProvider(
     cart
   );
-  const confirmOrderRequest = [];
+
+  const confirmOrderRequest = {
+    confirmRequestDto: []
+  };
 
   Object.keys(cartItemsPerBppPerProvider).forEach((bppId) => {
     Object.keys(cartItemsPerBppPerProvider[bppId]).forEach((providerId) => {
@@ -138,23 +170,43 @@ export const createConfirmOrderRequest = (
         context: {
           transaction_id: transactionId,
           bpp_id: bppId,
-          bpp_uri: cart.bpp_uri
+          bpp_uri: cart.bpp_uri,
+          domain: 'retail'
         },
         message: {
-          items: cartItemsPerBppPerProvider[bppId][providerId],
-          billing_info: billingInfo,
-          delivery_info: deliveryInfo,
-          payment: {
-            paid_amount:
-              initOrderData[bppId][providerId]?.payment?.params?.amount,
-            status: 'PAID',
-            transaction_id: transactionId,
-            currency:
-              initOrderData[bppId][providerId]?.payment?.params?.currency
+          order: {
+            provider: {
+              id: initOrderData[bppId][providerId].provider.id
+            },
+            items: initOrderData[bppId][providerId].items,
+            addOns: [],
+            offers: [],
+            billing: billingInfo,
+            fulfillment: {
+              type: deliveryInfo.type,
+              end: {
+                location: deliveryInfo.location,
+                contact: {
+                  phone: deliveryInfo.phone,
+                  email: deliveryInfo.email
+                }
+              },
+              customer: {
+                person: {
+                  name: deliveryInfo.name
+                }
+              },
+              id: initOrderData[bppId][providerId].fulfillment.id
+            },
+            payment: {
+              params: initOrderData[bppId][providerId].payment.params,
+              type: initOrderData[bppId][providerId].payment.type,
+              status: initOrderData[bppId][providerId].payment.status
+            }
           }
         }
       };
-      confirmOrderRequest.push(initItems);
+      confirmOrderRequest.confirmRequestDto.push(initItems);
     });
   });
 
@@ -170,22 +222,27 @@ export const createConfirmOrderRequest = (
 export const createStatusTrackAndSupportOrderRequest = (
   orderValue,
   idKey,
+  dtoRequestName: string,
   orderObject?: any
 ) => {
   const { transactionId, orderData } = orderValue;
-  const request = [];
+  const request = {
+    [dtoRequestName]: []
+  };
   Object.keys(orderData).forEach((orderId) => {
     const supportItems = {
       context: {
+        bpp_id: orderData[orderId].bppId,
+        bpp_uri: orderValue.cart.bpp_uri,
         transaction_id: transactionId,
-        bpp_id: orderData[orderId].bppId
+        domain: 'retail'
       },
       message: {
         [idKey]: orderId
       },
       order_object: orderObject
     };
-    request.push(supportItems);
+    request[dtoRequestName].push(supportItems);
   });
   return request;
 };
