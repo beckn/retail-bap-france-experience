@@ -14,7 +14,7 @@ export async function support(
 
   return client
     .post(
-      'https://api-node-dev.mobilityreferencebap.becknprotocol.io/client/v2/support'
+      'https://api-node.mobilityreferencebap.becknprotocol.io/client/v2/support'
     )
     .send(params)
     .set({
