@@ -450,7 +450,7 @@ export default {
             domain: 'mobility'
           },
           message: {
-            prompt_type: 'PARIS',
+            prompt_type: 'HIMALAYAS',
             searchQuery: JSON.parse(localStorage.getItem('importedOrderObject'))
               .message.order.item[0].descriptor.name
           }
