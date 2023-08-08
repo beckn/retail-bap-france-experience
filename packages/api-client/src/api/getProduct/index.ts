@@ -19,7 +19,7 @@ export default async function getProduct(
   // if (params.providerId) criteriaData.provider_id = params.providerId;
   // if (params.itemContains) criteriaData.search_string = params.itemContains;
   if (params.itemContains) criteriaData.searchString = params.itemContains;
-  if (params.category) criteriaData.category_name = params.category;
+  if (params.category) criteriaData.categoryName = params.category;
 
   const qParams = {
     context: {
