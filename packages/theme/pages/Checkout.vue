@@ -50,7 +50,7 @@
                 x {{ cartGetters.getItemQty(item).count }}
               </div>
               <div class="s-p-price">
-                € {{
+                ₹ {{
                   formatPrice(cartGetters.getItemPrice(item).regular *
                     cartGetters.getItemQty(item).count)
                 }}
@@ -118,12 +118,12 @@
                     <div :key="id" v-for="(breakup, id) in valuePerProvider.breakup">
                       <CardContent class="flex-space-bw">
                         <div>{{ breakup.title }}</div>
-                        <div>€ {{ formatPrice(breakup.price.value) }}</div>
+                        <div>₹ {{ formatPrice(breakup.price.value) }}</div>
                       </CardContent>
                     </div>
                     <CardContent class="flex-space-bw">
                       <div>Subtotal :</div>
-                      <div>€ {{ formatPrice(valuePerProvider.price.value) }}</div>
+                      <div>₹ {{ formatPrice(valuePerProvider.price.value) }}</div>
                     </CardContent>
                   </div>
                 </div>
@@ -144,7 +144,7 @@
           <p class="policy-text">
             Cancellation terms:<br />
             1. Orders cannot be cancelled once the items are shipped.<br />
-            2. Cancellation fee of € 10 will be applied for orders cancelled
+            2. Cancellation fee of ₹ 10 will be applied for orders cancelled
             by the buyer.<br /><br />
             Returns and Refunds:<br />
             1. Items can be returned within 7 days of delivery with full refund.
