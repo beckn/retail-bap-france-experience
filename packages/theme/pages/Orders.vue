@@ -47,7 +47,7 @@
                 </div>
               </div>
               <div class="order-price">
-                € {{
+                ₹ {{
                   formatPrice(order.orderData[Object.keys(order.orderData)[0]].payment.params
                     .amount)
                 }}
