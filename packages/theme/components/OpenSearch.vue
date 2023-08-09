@@ -407,8 +407,9 @@ export default {
               window.alert('Geocoder failed due to: ' + status);
             }
           });
+        } else {
+          window.location.reload();
         }
-
 
       }
     });
