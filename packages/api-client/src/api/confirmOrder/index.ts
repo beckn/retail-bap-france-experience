@@ -12,7 +12,7 @@ export default async function confirmOrder(
   const client = context.client as sa.SuperAgent<sa.SuperAgentRequest>;
   return client
     .post(
-      'https://api-node.mobilityreferencebap.becknprotocol.io/client/v2/confirm'
+      'https://api-node-dev.mobilityreferencebap.becknprotocol.io/client/v2/confirm'
     )
     .set({
       'Content-Type': 'application/json',
